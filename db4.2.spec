@@ -12,6 +12,10 @@ URL:		http://www.sleepycat.com/
 %{?_with_java:BuildRequires:	jdk}
 BuildRequires:	gcc-c++
 BuildRequires:	tcl-devel >= 8.3.2
+BuildRequires:	libstdc++-devel
+BuildRequires:	kernel-headers
+BuildRequires:	autoconf
+BuildRequires:	ed
 Obsoletes:	db4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 

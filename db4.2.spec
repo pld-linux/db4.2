@@ -105,6 +105,8 @@ Summary:	Header files for Berkeley database library
 Summary(pl):	Pliki nag³ówkowe do biblioteki Berkeley Database
 Group:		Development/Libraries
 Requires:	%{name} = %{version}
+Requires:	%{name}-cxx = %{version}
+Requires:	%{name}-tcl = %{version}
 Obsoletes:	db4-devel
 Obsoletes:	db3-devel
 

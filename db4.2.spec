@@ -1,5 +1,7 @@
-# Bconds:
-# _with	java	build db-java (required for openoffice)
+#
+# Conditional build:
+# _with_java	- build db-java (required for openoffice)
+#
 Summary:	BSD database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db

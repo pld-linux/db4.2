@@ -5,15 +5,13 @@
 Summary:	BSD database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db
-Version:	4.1.25
-Release:	4
+Version:	4.2.50
+Release:	1
 License:	BSD
 Group:		Libraries
 # alternative site (sometimes working): http://www.berkeleydb.com/
 Source0:	http://www.sleepycat.com/update/snapshot/%{name}-%{version}.tar.gz
-# Source0-md5: df71961002b552c0e72c6e4e358f27e1
-Patch0:		%{name}-o_direct.patch
-Patch1:		http://www.sleepycat.com/update/4.1.25/patch.4.1.25.1
+# Source0-md5:	644522fe89c565ec10c6d2e2d010227b
 URL:		http://www.sleepycat.com/
 BuildRequires:	autoconf
 BuildRequires:	ed
@@ -192,8 +190,6 @@ poleceñ.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p0
 
 %build
 cd dist
@@ -308,7 +304,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc docs/{api*,ref,index.html,sleepycat,images} examples_c*
 %{_includedir}/db.h
 %{_includedir}/db_185.h
-%{_libdir}/libdb-4.1.la
+%{_libdir}/libdb-4.2.la
 %{_libdir}/libdb.la
 %{_libdir}/libdb.so
 %{_libdir}/libdb4.la
@@ -326,10 +322,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files cxx-devel
 %defattr(644,root,root,755)
-%{_includedir}/cxx_common.h
-%{_includedir}/cxx_except.h
 %{_includedir}/db_cxx.h
-%{_libdir}/libdb_cxx-4.1.la
+%{_libdir}/libdb_cxx-4.2.la
 %{_libdir}/libdb_cxx.la
 %{_libdir}/libdb_cxx.so
 
@@ -346,7 +340,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files tcl-devel
 %defattr(644,root,root,755)
-%{_libdir}/libdb_tcl-4.1.la
+%{_libdir}/libdb_tcl-4.2.la
 %{_libdir}/libdb_tcl.la
 %{_libdir}/libdb_tcl.so
 

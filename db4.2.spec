@@ -19,7 +19,7 @@ URL:		http://www.sleepycat.com/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	ed
-%{?with_java:BuildRequires:	jdkgcj >= 0.3.1-2}
+%{?with_java:BuildRequires:	jdk}
 BuildRequires:	libtool
 BuildRequires:	libstdc++-devel
 BuildRequires:	sed >= 4.0
@@ -211,6 +211,8 @@ poleceñ.
 %build
 cd dist
 rm -f config.sub
+rm -f aclocal/libtool.ac
+rm -f ltmain.sh
 cp %{_datadir}/aclocal/libtool.m4 aclocal/libtool.ac
 cp %{_datadir}/automake/config.sub .
 cp %{_datadir}/libtool/ltmain.sh .

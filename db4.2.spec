@@ -2,7 +2,7 @@ Summary:	BSD database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db
 Version:	4.1.24
-Release:	4
+Release:	5
 License:	GPL
 Group:		Libraries
 Source0:	http://www.berkeleydb.com/update/snapshot/%{name}-%{version}.tar.gz
@@ -87,14 +87,14 @@ Biblioteka baz danych Berkeley dla C++.
 
 %package java
 Summary:	Berkeley database library for Java
-Summary(pl):	Biblioteka baz danych Berkeley dla Java
+Summary(pl):	Biblioteka baz danych Berkeley dla Javy
 Group:		Libraries
 
 %description java
 Berkeley database library for Java.
 
 %description java -l pl
-Biblioteka baz danych Berkeley dla Java.
+Biblioteka baz danych Berkeley dla Javy.
 
 %package devel
 Summary:	Header files for Berkeley database library
@@ -176,8 +176,12 @@ cp -a build_unix build_unix.static
 
 cd build_unix.static
 
-CFLAGS="%{rpmcflags} -fno-rtti -fno-implicit-templates" \
-CXXFLAGS="%{rpmcflags} -fno-rtti -fno-implicit-templates" \
+CC="%{__cc}"
+CXX="%{__cxx}"
+CFLAGS="%{rpmcflags} -fno-rtti -fno-implicit-templates"
+CXXFLAGS="%{rpmcflags} -fno-rtti -fno-implicit-templates"
+export CC CXX CFLAGS CXXFLAGS
+
 ../dist/configure \
 	--prefix=%{_prefix} \
 	--enable-compat185 \
@@ -193,10 +197,6 @@ CXXFLAGS="%{rpmcflags} -fno-rtti -fno-implicit-templates" \
 
 cd ../build_unix
 
-CFLAGS="%{rpmcflags} -fno-rtti -fno-implicit-templates" \
-CXXFLAGS="%{rpmcflags} -fno-rtti -fno-implicit-templates" \
-
-%if %{?_with_java:1}%{!?_with_java:0}
 ../dist/configure \
 	--prefix=%{_prefix} \
 	--enable-compat185 \
@@ -205,19 +205,8 @@ CXXFLAGS="%{rpmcflags} -fno-rtti -fno-implicit-templates" \
 	--enable-rpc \
 	--enable-cxx \
 	--enable-tcl \
-	--with-tcl=%{_libdir} \
-	--enable-java
-%else
-../dist/configure \
-	--prefix=%{_prefix} \
-	--enable-compat185 \
-	--enable-shared \
-	--disable-static \
-	--enable-rpc \
-	--enable-cxx \
-	--enable-tcl \
-	--with-tcl=/usr/lib
-%endif
+	--with-tcl=/usr/lib \
+	%{?_with_java:--enable-java}
 
 %{__make} library_build TCFLAGS='-I$(builddir) -I%{_includedir}'
 

@@ -1,6 +1,7 @@
 #
 # Conditional build:
-%bcond_with	java	# don't build db-java (required for openoffice)
+%bcond_with	java	# build db-java (required for openoffice)
+%bcond_without  tcl	# don't build tcl bindings
 #
 Summary:	BSD database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
@@ -19,7 +20,7 @@ BuildRequires:	ed
 # but requires some Java VM - gij is not sufficient
 %{?with_java:BuildRequires:	jdk}
 BuildRequires:	libstdc++-devel
-BuildRequires:	tcl-devel >= 8.3.2
+%{?with_tcl:BuildRequires:	tcl-devel >= 8.4.0}
 Obsoletes:	db4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -237,13 +238,13 @@ cd ../build_unix
 	--prefix=%{_prefix} \
 	--libdir=%{_libdir} \
 	--enable-compat185 \
-	--enable-shared \
-	--disable-static \
 	--enable-rpc \
 	--enable-cxx \
-	--enable-tcl \
-	--with-tcl=/usr/lib \
-	%{?with_java:--enable-java}
+	%{?with_tcl:--enable-tcl} \
+	%{?wit_tcl:--with-tcl=/usr/lib} \
+	%{?with_java:--enable-java} \
+	--disable-static \
+	--enable-shared 
 
 %{__make} library_build \
 	TCFLAGS='-I$(builddir) -I%{_includedir}'
@@ -267,7 +268,9 @@ ln -sf libdb-4.2.so libndbm.so
 ln -sf libdb-4.2.la libdb.la
 ln -sf libdb-4.2.la libdb4.la
 ln -sf libdb-4.2.la libndbm.la
+%if %{with tcl}
 ln -sf libdb_tcl-4.2.la libdb_tcl.la
+%endif
 ln -sf libdb_cxx-4.2.la libdb_cxx.la
 mv -f libdb.a libdb-4.2.a
 ln -sf libdb-4.2.a libdb.a
@@ -301,8 +304,10 @@ rm -rf $RPM_BUILD_ROOT
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
+%if %{with tcl}
 %post	tcl -p /sbin/ldconfig
 %postun	tcl -p /sbin/ldconfig
+%endif
 
 %post	cxx -p /sbin/ldconfig
 %postun	cxx -p /sbin/ldconfig
@@ -368,6 +373,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_examplesdir}/%{name}-java-%{version}
 %endif
 
+%if %{with tcl}
 %files tcl
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libdb_tcl-4.2.so
@@ -378,6 +384,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libdb_tcl.la
 %{_libdir}/libdb_tcl.so
 %{_docdir}/%{name}-%{version}-docs/api_tcl
+%endif
 
 %files utils
 %defattr(644,root,root,755)

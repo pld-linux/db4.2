@@ -206,9 +206,7 @@ CFLAGS="%{rpmcflags} -fno-implicit-templates"
 CXXFLAGS="%{rpmcflags} -fno-implicit-templates"
 export CC CXX CFLAGS CXXFLAGS
 
-../dist/configure \
-	--prefix=%{_prefix} \
-	--libdir=%{_libdir} \
+../dist/%configure \
 	--enable-compat185 \
 	--disable-shared \
 	--enable-static \
@@ -222,7 +220,7 @@ export CC CXX CFLAGS CXXFLAGS
 
 cd ../build_unix
 
-../dist/configure \
+../dist/%configure \
 	--prefix=%{_prefix} \
 	--libdir=%{_libdir} \
 	--enable-compat185 \
@@ -244,36 +242,39 @@ install -d $RPM_BUILD_ROOT{%{_includedir},%{_libdir},%{_bindir},/lib}
 cd build_unix.static
 
 %{__make} library_install \
+	bindir=$RPM_BUILD_ROOT%{_bindir} \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
-	libdir=$RPM_BUILD_ROOT%{_libdir} 
+	libdir=$RPM_BUILD_ROOT%{_libdir} \
+	includedir=$RPM_BUILD_ROOT%{_includedir}
 
 cd ../build_unix
 
 %{__make} library_install \
+	bindir=$RPM_BUILD_ROOT%{_bindir} \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
 	libdir=$RPM_BUILD_ROOT%{_libdir} \
 	includedir=$RPM_BUILD_ROOT%{_includedir} \
 	LIB_INSTALL_FILE_LIST=""
 
 (cd $RPM_BUILD_ROOT%{_libdir}
-ln -sf libdb-4.1.so libdb4.so
-ln -sf libdb-4.1.so libndbm.so
-ln -sf libdb-4.1.la libdb.la
-ln -sf libdb-4.1.la libdb4.la
-ln -sf libdb-4.1.la libndbm.la
-ln -sf libdb_tcl-4.1.la libdb_tcl.la
-ln -sf libdb_cxx-4.1.la libdb_cxx.la
-mv -f libdb.a libdb-4.1.a
-ln -sf libdb-4.1.a libdb.a
-ln -sf libdb-4.1.a libdb4.a
-ln -sf libdb-4.1.a libndbm.a
-mv -f libdb_cxx.a libdb_cxx-4.1.a
-ln -sf libdb_cxx-4.1.a libdb_cxx.a
+ln -sf libdb-4.2.so libdb4.so
+ln -sf libdb-4.2.so libndbm.so
+ln -sf libdb-4.2.la libdb.la
+ln -sf libdb-4.2.la libdb4.la
+ln -sf libdb-4.2.la libndbm.la
+ln -sf libdb_tcl-4.2.la libdb_tcl.la
+ln -sf libdb_cxx-4.2.la libdb_cxx.la
+mv -f libdb.a libdb-4.2.a
+ln -sf libdb-4.2.a libdb.a
+ln -sf libdb-4.2.a libdb4.a
+ln -sf libdb-4.2.a libndbm.a
+mv -f libdb_cxx.a libdb_cxx-4.2.a
+ln -sf libdb_cxx-4.2.a libdb_cxx.a
 
-mv -f libdb-4.1.la libdb-4.1.la.tmp
-mv -f libdb_cxx-4.1.la libdb_cxx-4.1.la.tmp
-sed -e "s/old_library=''/old_library='libdb-4.1.a'/" libdb-4.1.la.tmp > libdb-4.1.la
-sed -e "s/old_library=''/old_library='libdb_cxx-4.1.a'/" libdb_cxx-4.1.la.tmp > libdb_cxx-4.1.la
+mv -f libdb-4.2.la libdb-4.2.la.tmp
+mv -f libdb_cxx-4.2.la libdb_cxx-4.2.la.tmp
+sed -e "s/old_library=''/old_library='libdb-4.2.a'/" libdb-4.2.la.tmp > libdb-4.2.la
+sed -e "s/old_library=''/old_library='libdb_cxx-4.2.a'/" libdb_cxx-4.2.la.tmp > libdb_cxx-4.2.la
 rm -f libdb*.la.tmp
 )
 

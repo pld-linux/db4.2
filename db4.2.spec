@@ -279,7 +279,7 @@ cd ../build_unix
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_includedir},%{_libdir},%{_bindir},/lib}
+install -d $RPM_BUILD_ROOT{%{_includedir},%{_libdir},%{_bindir}}
 %if %{with java}
 install -d $RPM_BUILD_ROOT%{_javadir}
 %endif

@@ -1,6 +1,6 @@
 #
 # Conditional build:
-# _with_java	- build db-java (required for openoffice)
+%bcond_with	java	# don't build db-java (required for openoffice)
 #
 Summary:	BSD database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
@@ -15,7 +15,9 @@ Source0:	http://www.sleepycat.com/update/snapshot/%{name}-%{version}.tar.gz
 URL:		http://www.sleepycat.com/
 BuildRequires:	autoconf
 BuildRequires:	ed
-%{?_with_java:BuildRequires:	gcc-java}
+# gcc-java or jdk
+# but requires some Java VM - gij is not sufficient
+%{?with_java:BuildRequires:	jdk}
 BuildRequires:	libstdc++-devel
 BuildRequires:	tcl-devel >= 8.3.2
 Obsoletes:	db4
@@ -106,19 +108,31 @@ Berkeley database library for C++.
 Biblioteka baz danych Berkeley dla C++.
 
 %package cxx-devel
-Summary:	Berkeley database library for C++
-Summary(pl):	Biblioteka baz danych Berkeley dla C++
-Group:		Libraries
+Summary:	Header files for db-cxx library
+Summary(pl):	Pliki nag³ówkowe biblioteki db-cxx
+Group:		Development/Libraries
 Requires:	%{name}-cxx = %{version}
 Requires:	%{name}-devel = %{version}
-Obsoletes:	db4-cxx
 Conflicts:	db-devel < 4.1.25-3
 
 %description cxx-devel
-Berkeley database library for C++.
+Header files for db-cxx library.
 
 %description cxx-devel -l pl
-Biblioteka baz danych Berkeley dla C++.
+Pliki nag³ówkowe biblioteki db-cxx.
+
+%package cxx-static
+Summary:	Static version of db-cxx library
+Summary(pl):	Statyczna wersja biblioteki db-cxx
+Group:		Development/Libraries
+Requires:	%{name}-cxx-devel = %{version}
+Conflicts:	db-static < 4.2.50-1
+
+%description cxx-static
+Static version of db-cxx library.
+
+%description cxx-static -l pl
+Statyczna wersja biblioteki db-cxx.
 
 %package java
 Summary:	Berkeley database library for Java
@@ -145,19 +159,18 @@ Berkeley database library for TCL.
 Biblioteka baz danych Berkeley dla TCL.
 
 %package tcl-devel
-Summary:	Berkeley database library for TCL
-Summary(pl):	Biblioteka baz danych Berkeley dla TCL
+Summary:	Development files for db-tcl library
+Summary(pl):	Pliki programistyczne biblioteki db-tcl
 Group:		Development/Languages/Tcl
 Requires:	tcl
 Requires:	%{name}-tcl = %{version}
-Obsoletes:	db4-tcl
 Conflicts:	db-devel < 4.1.25-3
 
 %description tcl-devel
-Berkeley database library for TCL.
+Development files for db-tcl library.
 
 %description tcl-devel -l pl
-Biblioteka baz danych Berkeley dla TCL.
+Pliki programistyczne biblioteki db-tcl.
 
 %package utils
 Summary:	Command line tools for managing Berkeley DB databases
@@ -202,7 +215,7 @@ cd build_unix.static
 
 CC="%{__cc}"
 CXX="%{__cxx}"
-CFLAGS="%{rpmcflags} -fno-implicit-templates"
+CFLAGS="%{rpmcflags}"
 CXXFLAGS="%{rpmcflags} -fno-implicit-templates"
 export CC CXX CFLAGS CXXFLAGS
 
@@ -230,7 +243,7 @@ cd ../build_unix
 	--enable-cxx \
 	--enable-tcl \
 	--with-tcl=/usr/lib \
-	%{?_with_java:--enable-java}
+	%{?with_java:--enable-java}
 
 %{__make} library_build \
 	TCFLAGS='-I$(builddir) -I%{_includedir}'
@@ -239,24 +252,20 @@ cd ../build_unix
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_includedir},%{_libdir},%{_bindir},/lib}
 
-cd build_unix.static
-
-%{__make} library_install \
+%{__make} -C build_unix.static library_install \
 	bindir=$RPM_BUILD_ROOT%{_bindir} \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
 	libdir=$RPM_BUILD_ROOT%{_libdir} \
 	includedir=$RPM_BUILD_ROOT%{_includedir}
 
-cd ../build_unix
-
-%{__make} library_install \
+%{__make} -C build_unix library_install \
 	bindir=$RPM_BUILD_ROOT%{_bindir} \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
 	libdir=$RPM_BUILD_ROOT%{_libdir} \
 	includedir=$RPM_BUILD_ROOT%{_includedir} \
 	LIB_INSTALL_FILE_LIST=""
 
-(cd $RPM_BUILD_ROOT%{_libdir}
+cd $RPM_BUILD_ROOT%{_libdir}
 ln -sf libdb-4.2.so libdb4.so
 ln -sf libdb-4.2.so libndbm.so
 ln -sf libdb-4.2.la libdb.la
@@ -276,9 +285,9 @@ mv -f libdb_cxx-4.2.la libdb_cxx-4.2.la.tmp
 sed -e "s/old_library=''/old_library='libdb-4.2.a'/" libdb-4.2.la.tmp > libdb-4.2.la
 sed -e "s/old_library=''/old_library='libdb_cxx-4.2.a'/" libdb_cxx-4.2.la.tmp > libdb_cxx-4.2.la
 rm -f libdb*.la.tmp
-)
 
-cd ..
+#cd -
+#cd ..
 #rm -rf examples_java
 #cp -a java/src/com/sleepycat/examples examples_java
 
@@ -297,14 +306,11 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc LICENSE README
-#%attr(755,root,root) /lib/libdb-*.so
 %attr(755,root,root) %{_libdir}/libdb-*.so
 
 %files devel
 %defattr(644,root,root,755)
 %doc docs/{api*,ref,index.html,sleepycat,images} examples_c*
-%{_includedir}/db.h
-%{_includedir}/db_185.h
 %{_libdir}/libdb-4.2.la
 %{_libdir}/libdb.la
 %{_libdir}/libdb.so
@@ -312,10 +318,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libdb4.so
 %{_libdir}/libndbm.la
 %{_libdir}/libndbm.so
+%{_includedir}/db.h
+%{_includedir}/db_185.h
 
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/lib*.a
+%{_libdir}/libdb-4.2.a
+%{_libdir}/libdb4.a
+%{_libdir}/libdb.a
+%{_libdir}/libndbm.a
 
 %files cxx
 %defattr(644,root,root,755)
@@ -328,7 +339,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libdb_cxx.la
 %{_libdir}/libdb_cxx.so
 
-%if %{?_with_java:1}%{!?_with_java:0}
+%files cxx-static
+%defattr(644,root,root,755)
+%{_libdir}/libdb_cxx-4.2.a
+%{_libdir}/libdb_cxx.a
+
+%if %{with java}
 %files java
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libdb_java*.so
@@ -337,7 +353,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files tcl
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libdb_tcl-*.so
+%attr(755,root,root) %{_libdir}/libdb_tcl-4.2.so
 
 %files tcl-devel
 %defattr(644,root,root,755)

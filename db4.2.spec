@@ -27,6 +27,7 @@ BuildRequires:	ed
 %{?with_java:BuildRequires:	jdk}
 BuildRequires:	libtool
 BuildRequires:	libstdc++-devel
+BuildRequires:	rpmbuild(macros) >= 1.164
 BuildRequires:	sed >= 4.0
 %{?with_tcl:BuildRequires:	tcl-devel >= 8.4.0}
 Obsoletes:	db4

@@ -2,8 +2,10 @@
 # Conditional build:
 %bcond_with	java	# build db-java (required for openoffice)
 %bcond_without	tcl	# don't build tcl bindings
-%bcond_with	nptl	# enable posix mutexes
+%bcond_with	pmutex	# use POSIX mutexes (only process-private with linuxthreads)
+%bcond_with	nptl	# synonym for pmutex (NPTL provides full interface)
 #
+%{?with_nptl:%define	pmutex	1}
 Summary:	Berkeley DB database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db
@@ -244,7 +246,7 @@ CC="%{__cc}"
 CXX="%{__cxx}"
 CFLAGS="%{rpmcflags}"
 CXXFLAGS="%{rpmcflags} -fno-implicit-templates"
-LDFLAGS="%{rpmldflags} %{?with_nptl:-lpthread}"
+LDFLAGS="%{rpmldflags}"
 export CC CXX CFLAGS CXXFLAGS LDFLAGS
 
 ../dist/%configure \
@@ -252,7 +254,7 @@ export CC CXX CFLAGS CXXFLAGS LDFLAGS
 	--disable-shared \
 	--enable-static \
 	--enable-rpc \
-	%{?with_nptl:--enable-posixmutexes} \
+	--%{?with_pmutex:en}%{!?with_pmutex:dis}able-posixmutexes \
 	--enable-cxx
 
 # (temporarily?) disabled because of compilation errors:
@@ -267,7 +269,7 @@ cd ../build_unix
 	--libdir=%{_libdir} \
 	--enable-compat185 \
 	--enable-rpc \
-	%{?with_nptl:--enable-posixmutexes} \
+	--%{?with_pmutex:en}%{!?with_pmutex:dis}able-posixmutexes \
 	--enable-cxx \
 	%{?with_tcl:--enable-tcl} \
 	%{?with_tcl:--with-tcl=/usr/lib} \
@@ -276,7 +278,9 @@ cd ../build_unix
 	--enable-shared 
 
 %{__make} library_build \
-	TCFLAGS='-I$(builddir) -I%{_includedir}'
+	TCFLAGS='-I$(builddir) -I%{_includedir}' \
+	LIBSO_LIBS="\$(LIBS)" \
+	LIBTSO_LIBS="\$(LIBS) -ltcl"
 
 %install
 rm -rf $RPM_BUILD_ROOT

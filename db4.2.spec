@@ -2,7 +2,8 @@
 # Conditional build:
 %bcond_with	java	# build db-java (required for openoffice)
 %bcond_without  tcl	# don't build tcl bindings
-#
+%bcond_with	nptl	# enable posix mutexes
+
 Summary:	Berkeley DB database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db
@@ -231,6 +232,7 @@ export CC CXX CFLAGS CXXFLAGS
 	--disable-shared \
 	--enable-static \
 	--enable-rpc \
+	%{?with_nptl:--enable-posixmutexes} \
 	--enable-cxx
 
 # (temporarily?) disabled because of compilation errors:
@@ -245,6 +247,7 @@ cd ../build_unix
 	--libdir=%{_libdir} \
 	--enable-compat185 \
 	--enable-rpc \
+	%{?with_nptl:--enable-posixmutexes} \
 	--enable-cxx \
 	%{?with_tcl:--enable-tcl} \
 	%{?with_tcl:--with-tcl=/usr/lib} \

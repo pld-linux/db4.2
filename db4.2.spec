@@ -225,7 +225,8 @@ CC="%{__cc}"
 CXX="%{__cxx}"
 CFLAGS="%{rpmcflags}"
 CXXFLAGS="%{rpmcflags} -fno-implicit-templates"
-export CC CXX CFLAGS CXXFLAGS
+LDFLAGS="%{rpmldflags} %{?with_nptl:-lpthread}"
+export CC CXX CFLAGS CXXFLAGS LDFLAGS
 
 ../dist/%configure \
 	--enable-compat185 \

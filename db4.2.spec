@@ -6,7 +6,7 @@ Summary:	BSD database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db
 Version:	4.1.25
-Release:	3
+Release:	4
 License:	GPL
 Group:		Libraries
 # alternative site (sometimes working): http://www.berkeleydb.com/

@@ -3,16 +3,17 @@
 %bcond_with	java	# build db-java (required for openoffice)
 %bcond_without  tcl	# don't build tcl bindings
 #
-Summary:	BSD database library for C
+Summary:	Berkeley DB database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db
-Version:	4.2.50
+Version:	4.2.52
 Release:	1
-License:	BSD
+License:	Sleepycat public license (GPL-like, see LICENSE)
 Group:		Libraries
 # alternative site (sometimes working): http://www.berkeleydb.com/
+#Source0Download: http://www.sleepycat.com/download/
 Source0:	http://www.sleepycat.com/update/snapshot/%{name}-%{version}.tar.gz
-# Source0-md5:	644522fe89c565ec10c6d2e2d010227b
+# Source0-md5:	cbc77517c9278cdb47613ce8cb55779f
 URL:		http://www.sleepycat.com/
 BuildRequires:	autoconf
 BuildRequires:	ed
@@ -40,7 +41,7 @@ Pythonie i Perlu.
 Summary:	Header files for Berkeley database library
 Summary(pl):	Pliki nag³ówkowe do biblioteki Berkeley Database
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Obsoletes:	db3-devel
 Obsoletes:	db4-devel
 
@@ -70,7 +71,7 @@ programów u¿ywaj±cych Berkeley DB.
 Summary:	Static libraries for Berkeley database library
 Summary(pl):	Statyczne biblioteki Berkeley Database
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}
+Requires:	%{name}-devel = %{version}-%{release}
 Obsoletes:	db3-static
 Obsoletes:	db4-static
 
@@ -112,8 +113,8 @@ Biblioteka baz danych Berkeley dla C++.
 Summary:	Header files for db-cxx library
 Summary(pl):	Pliki nag³ówkowe biblioteki db-cxx
 Group:		Development/Libraries
-Requires:	%{name}-cxx = %{version}
-Requires:	%{name}-devel = %{version}
+Requires:	%{name}-cxx = %{version}-%{release}
+Requires:	%{name}-devel = %{version}-%{release}
 Conflicts:	db-devel < 4.1.25-3
 
 %description cxx-devel
@@ -126,7 +127,7 @@ Pliki nag³ówkowe biblioteki db-cxx.
 Summary:	Static version of db-cxx library
 Summary(pl):	Statyczna wersja biblioteki db-cxx
 Group:		Development/Libraries
-Requires:	%{name}-cxx-devel = %{version}
+Requires:	%{name}-cxx-devel = %{version}-%{release}
 Conflicts:	db-static < 4.2.50-1
 
 %description cxx-static
@@ -164,7 +165,7 @@ Summary:	Development files for db-tcl library
 Summary(pl):	Pliki programistyczne biblioteki db-tcl
 Group:		Development/Languages/Tcl
 Requires:	tcl
-Requires:	%{name}-tcl = %{version}
+Requires:	%{name}-tcl = %{version}-%{release}
 Conflicts:	db-devel < 4.1.25-3
 
 %description tcl-devel
@@ -177,7 +178,7 @@ Pliki programistyczne biblioteki db-tcl.
 Summary:	Command line tools for managing Berkeley DB databases
 Summary(pl):	Narzêdzia do obs³ugi baz Berkeley DB z linii poleceñ
 Group:		Applications/Databases
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Obsoletes:	db4-utils
 
 %description utils
@@ -333,7 +334,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_docdir}/%{name}-%{version}-docs/api_c
 %{_docdir}/%{name}-%{version}-docs/images
 %{_docdir}/%{name}-%{version}-docs/ref
-%{_docdir}/%{name}-%{version}-docs/reftoc.html
 %{_examplesdir}/%{name}-%{version}
 
 %files static

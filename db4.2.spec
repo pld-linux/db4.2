@@ -7,7 +7,7 @@ Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db
 Version:	4.1.25
 Release:	4
-License:	GPL
+License:	BSD
 Group:		Libraries
 # alternative site (sometimes working): http://www.berkeleydb.com/
 Source0:	http://www.sleepycat.com/update/snapshot/%{name}-%{version}.tar.gz

@@ -7,7 +7,7 @@ Summary:	Berkeley DB database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db
 Version:	4.2.52
-Release:	1
+Release:	2
 License:	Sleepycat public license (GPL-like, see LICENSE)
 Group:		Libraries
 # alternative site (sometimes working): http://www.berkeleydb.com/
@@ -16,6 +16,7 @@ Source0:	http://www.sleepycat.com/update/snapshot/%{name}-%{version}.tar.gz
 # Source0-md5:	cbc77517c9278cdb47613ce8cb55779f
 URL:		http://www.sleepycat.com/
 BuildRequires:	autoconf
+BuildRequires:	libtool
 BuildRequires:	ed
 # gcc-java or jdk
 # but requires some Java VM - gij is not sufficient
@@ -208,6 +209,7 @@ poleceñ.
 
 %build
 cd dist
+install %{_datadir}/aclocal/libtool.m4 aclocal/libtool.ac
 sh s_config
 cd ..
 

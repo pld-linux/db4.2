@@ -9,7 +9,6 @@ Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db
 Version:	4.2.52
 Release:	3
-Epoch:		0
 License:	Sleepycat public license (GPL-like, see LICENSE)
 Group:		Libraries
 # alternative site (sometimes working): http://www.berkeleydb.com/
@@ -19,12 +18,13 @@ Source0:	http://www.sleepycat.com/update/snapshot/%{name}-%{version}.tar.gz
 URL:		http://www.sleepycat.com/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libtool
 BuildRequires:	ed
 # gcc-java or jdk
 # but requires some Java VM - gij is not sufficient
 %{?with_java:BuildRequires:	jdk}
+BuildRequires:	libtool
 BuildRequires:	libstdc++-devel
+BuildRequires:	sed >= 4.0
 %{?with_tcl:BuildRequires:	tcl-devel >= 8.4.0}
 Obsoletes:	db4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -275,7 +275,9 @@ install -d $RPM_BUILD_ROOT{%{_includedir},%{_libdir},%{_bindir},/lib}
 	LIB_INSTALL_FILE_LIST=""
 
 cd $RPM_BUILD_ROOT%{_libdir}
+ln -sf libdb-4.2.so libdb.so
 ln -sf libdb-4.2.so libdb4.so
+ln -sf libdb-4.2.so libdb-4.so
 ln -sf libdb-4.2.so libndbm.so
 ln -sf libdb-4.2.la libdb.la
 ln -sf libdb-4.2.la libdb4.la
@@ -290,12 +292,11 @@ ln -sf libdb-4.2.a libdb4.a
 ln -sf libdb-4.2.a libndbm.a
 mv -f libdb_cxx.a libdb_cxx-4.2.a
 ln -sf libdb_cxx-4.2.a libdb_cxx.a
+ln -sf libdb_cxx-4.2.so libdb_cxx.so
+ln -sf libdb_cxx-4.2.so libdb_cxx-4.so
 
-mv -f libdb-4.2.la libdb-4.2.la.tmp
-mv -f libdb_cxx-4.2.la libdb_cxx-4.2.la.tmp
-sed -e "s/old_library=''/old_library='libdb-4.2.a'/" libdb-4.2.la.tmp > libdb-4.2.la
-sed -e "s/old_library=''/old_library='libdb_cxx-4.2.a'/" libdb_cxx-4.2.la.tmp > libdb_cxx-4.2.la
-rm -f libdb*.la.tmp
+sed -i "s/old_library=''/old_library='libdb-4.2.a'/" libdb-4.2.la
+sed -i "s/old_library=''/old_library='libdb_cxx-4.2.a'/" libdb_cxx-4.2.la
 
 cd -
 rm -f examples_c*/tags

@@ -6,8 +6,6 @@
 %bcond_with	nptl	# synonym for pmutex (NPTL provides full interface)
 #
 %{?with_nptl:%define	with_pmutex	1}
-#%%define	pmutex	1
-
 Summary:	Berkeley DB database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db

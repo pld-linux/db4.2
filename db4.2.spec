@@ -5,10 +5,12 @@ Version:	4.1.25
 Release:	1
 License:	GPL
 Group:		Libraries
-Source0:	http://www.berkeleydb.com/update/snapshot/%{name}-%{version}.tar.gz
+#Source0:	http://www.berkeleydb.com/update/snapshot/%{name}-%{version}.tar.gz
+Source0:	http://www.sleepycat.com/update/snapshot/%{name}-%{version}.tar.gz
 Patch0:		%{name}-o_direct.patch
 URL:		http://www.berkeleydb.com/
 %{?_with_java:BuildRequires:	jdk}
+BuildRequires:	gcc-c++
 BuildRequires:	tcl-devel >= 8.3.2
 Obsoletes:	db4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)

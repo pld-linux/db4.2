@@ -17,7 +17,7 @@ Patch1:		http://www.sleepycat.com/update/4.1.25/patch.4.1.25.1
 URL:		http://www.sleepycat.com/
 BuildRequires:	autoconf
 BuildRequires:	ed
-%{?_with_java:BuildRequires:	jdk}
+%{?_with_java:BuildRequires:	gcc-java}
 BuildRequires:	libstdc++-devel
 BuildRequires:	tcl-devel >= 8.3.2
 Obsoletes:	db4

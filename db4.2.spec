@@ -1,7 +1,7 @@
 #
 # Conditional build:
 %bcond_with	java	# build db-java (required for openoffice)
-%bcond_without  tcl	# don't build tcl bindings
+%bcond_without	tcl	# don't build tcl bindings
 %bcond_with	nptl	# enable posix mutexes
 
 Summary:	Berkeley DB database library for C

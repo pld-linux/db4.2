@@ -32,7 +32,7 @@ including Python and Perl, so this should be installed on all systems.
 %description -l pl
 Berkeley Database (Berkeley DB) to zestaw narzêdzi programistycznych
 zapewniaj±cych obs³ugê baz danych w aplikacjach tradycyjnych jak i
-klient-serwer. Berkeley db jest u¿ywana wielu aplikacjach, w tym w
+klient-serwer. Berkeley db jest u¿ywana w wielu aplikacjach, w tym w
 Pythonie i Perlu.
 
 %package devel

@@ -9,13 +9,11 @@ Group:		Libraries
 Source0:	http://www.sleepycat.com/update/snapshot/%{name}-%{version}.tar.gz
 Patch0:		%{name}-o_direct.patch
 URL:		http://www.sleepycat.com/
-%{?_with_java:BuildRequires:	jdk}
-BuildRequires:	gcc-c++
-BuildRequires:	tcl-devel >= 8.3.2
-BuildRequires:	libstdc++-devel
-BuildRequires:	kernel-headers
 BuildRequires:	autoconf
 BuildRequires:	ed
+%{?_with_java:BuildRequires:	jdk}
+BuildRequires:	libstdc++-devel
+BuildRequires:	tcl-devel >= 8.3.2
 Obsoletes:	db4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 

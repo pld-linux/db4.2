@@ -1,7 +1,7 @@
 #
 # Conditional build:
 %bcond_with	java	# build db-java (required for openoffice)
-%bcond_without	tcl	# don't build tcl bindings
+%bcond_without	tcl	# don't build Tcl bindings
 %bcond_with	pmutex	# use POSIX mutexes (only process-private with linuxthreads)
 %bcond_with	nptl	# synonym for pmutex (NPTL provides full interface)
 #
@@ -169,17 +169,17 @@ Development files for db-java library.
 Pliki programistyczne biblioteki db-java.
 
 %package tcl
-Summary:	Berkeley database library for TCL
-Summary(pl):	Biblioteka baz danych Berkeley dla TCL
+Summary:	Berkeley database library for Tcl
+Summary(pl):	Biblioteka baz danych Berkeley dla Tcl
 Group:		Development/Languages/Tcl
 Requires:	tcl
 Obsoletes:	db4-tcl
 
 %description tcl
-Berkeley database library for TCL.
+Berkeley database library for Tcl.
 
 %description tcl -l pl
-Biblioteka baz danych Berkeley dla TCL.
+Biblioteka baz danych Berkeley dla Tcl.
 
 %package tcl-devel
 Summary:	Development files for db-tcl library

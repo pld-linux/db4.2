@@ -310,7 +310,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc LICENSE README
-%attr(755,root,root) %{_libdir}/libdb-*.so
+%attr(755,root,root) %{_libdir}/libdb-4.2.so
 %dir %{_docdir}/%{name}-%{version}-docs
 %{_docdir}/%{name}-%{version}-docs/sleepycat
 %{_docdir}/%{name}-%{version}-docs/index.html
@@ -318,6 +318,7 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %{_libdir}/libdb-4.2.la
+%{_libdir}/libdb-4.so
 %{_libdir}/libdb.la
 %{_libdir}/libdb.so
 %{_libdir}/libdb4.la
@@ -341,12 +342,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %files cxx
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libdb_cxx-*.so
+%attr(755,root,root) %{_libdir}/libdb_cxx-4.2.so
 
 %files cxx-devel
 %defattr(644,root,root,755)
 %{_includedir}/db_cxx.h
 %{_libdir}/libdb_cxx-4.2.la
+%{_libdir}/libdb_cxx-4.so
 %{_libdir}/libdb_cxx.la
 %{_libdir}/libdb_cxx.so
 %{_docdir}/%{name}-%{version}-docs/api_cxx

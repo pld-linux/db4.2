@@ -1,15 +1,11 @@
 Summary:	BSD database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db
-Version:	4.0.14
-Release:	3.2
+Version:	4.1.24
+Release:	1
 License:	GPL
 Group:		Libraries
 Source0:	http://www.berkeleydb.com/update/snapshot/%{name}-%{version}.tar.gz
-#Patch0:		%{name}-static.patch
-#Patch1:		%{name}-linux.patch
-#Patch2:		%{name}-jbj.patch
-Patch0:		%{name}-rpm.patch
 URL:		http://www.berkeleydb.com/
 #BuildRequires:	glibc-static
 %{?_with_java:BuildRequires:	java}
@@ -149,9 +145,6 @@ u¿ywaj±cych Berkeley DB.
 
 %prep
 %setup -q
-%patch0 -p1
-#%patch1 -p1
-#%patch2 -p1
 
 %build
 cp -a build_unix build_unix.static
@@ -218,14 +211,6 @@ cd ../build_unix
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
 	includedir=$RPM_BUILD_ROOT%{_includedir} \
 	LIB_INSTALL_FILE_LIST=""
-
-#mv -f $RPM_BUILD_ROOT%{_libdir}/libdb-*.so $RPM_BUILD_ROOT/lib
-#ln -sf ../../lib/libdb-3.1.so $RPM_BUILD_ROOT%{_libdir}/libdb.so
-#ln -sf ../../lib/libdb-3.1.so $RPM_BUILD_ROOT%{_libdir}/libdb3.so
-#ln -sf ../../lib/libdb-3.1.so $RPM_BUILD_ROOT%{_libdir}/libdb-3.1.so
-#ln -sf libdb-3.1.a $RPM_BUILD_ROOT%{_libdir}/libdb.a
-#ln -sf libdb3.so $RPM_BUILD_ROOT%{_libdir}/libndbm.so
-#ln -sf libdb3.a $RPM_BUILD_ROOT%{_libdir}/libndbm.a
 
 cd ..
 #rm -rf examples_java

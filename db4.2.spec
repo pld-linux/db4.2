@@ -28,6 +28,8 @@ BuildRequires:	sed >= 4.0
 Obsoletes:	db4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define		_javalibdir	/usr/share/java
+
 %description
 The Berkeley Database (Berkeley DB) is a programmatic toolkit that
 provides embedded database support for both traditional and
@@ -276,6 +278,9 @@ cd ../build_unix
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_includedir},%{_libdir},%{_bindir},/lib}
+%if %{with java}
+install -d $RPM_BUILD_ROOT%{_javalibdir}
+%endif
 
 %{__make} -C build_unix.static library_install \
 	docdir=%{_docdir}/%{name}-%{version}-docs \
@@ -296,6 +301,7 @@ ln -sf libdb-4.2.la libdb4.la
 ln -sf libdb-4.2.la libndbm.la
 %if %{with java}
 ln -sf libdb_java-4.2.la libdb_java.la
+mv -f *.jar $RPM_BUILD_ROOT%{_javalibdir}
 %endif
 %if %{with tcl}
 ln -sf libdb_tcl-4.2.so libdb_tcl.so
@@ -394,7 +400,7 @@ rm -rf $RPM_BUILD_ROOT
 %files java
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libdb_java*.so
-%{_libdir}/db.jar
+%{_javalibdir}/db.jar
 
 %files java-devel
 %defattr(644,root,root,755)

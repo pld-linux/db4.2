@@ -16,6 +16,7 @@ Source0:	http://www.sleepycat.com/update/snapshot/%{name}-%{version}.tar.gz
 # Source0-md5:	cbc77517c9278cdb47613ce8cb55779f
 URL:		http://www.sleepycat.com/
 BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	libtool
 BuildRequires:	ed
 # gcc-java or jdk
@@ -209,6 +210,8 @@ poleceñ.
 
 %build
 cd dist
+rm -f config.sub
+cp /usr/share/automake/config.sub .
 install %{_datadir}/aclocal/libtool.m4 aclocal/libtool.ac
 sh s_config
 cd ..

@@ -9,6 +9,7 @@ Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db
 Version:	4.2.52
 Release:	3
+Epoch:		0
 License:	Sleepycat public license (GPL-like, see LICENSE)
 Group:		Libraries
 # alternative site (sometimes working): http://www.berkeleydb.com/
@@ -44,7 +45,7 @@ Pythonie i Perlu.
 Summary:	Header files for Berkeley database library
 Summary(pl):	Pliki nag³ówkowe do biblioteki Berkeley Database
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 Obsoletes:	db3-devel
 Obsoletes:	db4-devel
 
@@ -74,7 +75,7 @@ programów u¿ywaj±cych Berkeley DB.
 Summary:	Static libraries for Berkeley database library
 Summary(pl):	Statyczne biblioteki Berkeley Database
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 Obsoletes:	db3-static
 Obsoletes:	db4-static
 
@@ -116,8 +117,8 @@ Biblioteka baz danych Berkeley dla C++.
 Summary:	Header files for db-cxx library
 Summary(pl):	Pliki nag³ówkowe biblioteki db-cxx
 Group:		Development/Libraries
-Requires:	%{name}-cxx = %{version}-%{release}
-Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-cxx = %{epoch}:%{version}-%{release}
+Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 Conflicts:	db-devel < 4.1.25-3
 
 %description cxx-devel
@@ -130,7 +131,7 @@ Pliki nag³ówkowe biblioteki db-cxx.
 Summary:	Static version of db-cxx library
 Summary(pl):	Statyczna wersja biblioteki db-cxx
 Group:		Development/Libraries
-Requires:	%{name}-cxx-devel = %{version}-%{release}
+Requires:	%{name}-cxx-devel = %{epoch}:%{version}-%{release}
 Conflicts:	db-static < 4.2.50-1
 
 %description cxx-static
@@ -168,7 +169,7 @@ Summary:	Development files for db-tcl library
 Summary(pl):	Pliki programistyczne biblioteki db-tcl
 Group:		Development/Languages/Tcl
 Requires:	tcl
-Requires:	%{name}-tcl = %{version}-%{release}
+Requires:	%{name}-tcl = %{epoch}:%{version}-%{release}
 Conflicts:	db-devel < 4.1.25-3
 
 %description tcl-devel
@@ -181,7 +182,7 @@ Pliki programistyczne biblioteki db-tcl.
 Summary:	Command line tools for managing Berkeley DB databases
 Summary(pl):	Narzêdzia do obs³ugi baz Berkeley DB z linii poleceñ
 Group:		Applications/Databases
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 Obsoletes:	db4-utils
 
 %description utils

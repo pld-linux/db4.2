@@ -40,8 +40,8 @@ Summary:	Header files for Berkeley database library
 Summary(pl):	Pliki nag³ówkowe do biblioteki Berkeley Database
 Group:		Development/Libraries
 Requires:	%{name} = %{version}
-Obsoletes:	db4-devel
 Obsoletes:	db3-devel
+Obsoletes:	db4-devel
 
 %description devel
 The Berkeley Database (Berkeley DB) is a programmatic toolkit that
@@ -70,8 +70,8 @@ Summary:	Static libraries for Berkeley database library
 Summary(pl):	Statyczne biblioteki Berkeley Database
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}
-Obsoletes:	db4-static
 Obsoletes:	db3-static
+Obsoletes:	db4-static
 
 %description static
 The Berkeley Database (Berkeley DB) is a programmatic toolkit that
@@ -112,8 +112,9 @@ Summary:	Berkeley database library for C++
 Summary(pl):	Biblioteka baz danych Berkeley dla C++
 Group:		Libraries
 Requires:	%{name}-cxx = %{version}
-Obsoletes:	%{name}-devel < 4.1.25-3
+Requires:	%{name}-devel = %{version}
 Obsoletes:	db4-cxx
+Conflicts:	db-devel < 4.1.25-3
 
 %description cxx-devel
 Berkeley database library for C++.
@@ -151,8 +152,8 @@ Summary(pl):	Biblioteka baz danych Berkeley dla TCL
 Group:		Development/Languages/Tcl
 Requires:	tcl
 Requires:	%{name}-tcl = %{version}
-Obsoletes:	%{name}-devel < 4.1.25-3
 Obsoletes:	db4-tcl
+Conflicts:	db-devel < 4.1.25-3
 
 %description tcl-devel
 Berkeley database library for TCL.
@@ -235,7 +236,8 @@ cd ../build_unix
 	--with-tcl=/usr/lib \
 	%{?_with_java:--enable-java}
 
-%{__make} library_build TCFLAGS='-I$(builddir) -I%{_includedir}'
+%{__make} library_build \
+	TCFLAGS='-I$(builddir) -I%{_includedir}'
 
 %install
 rm -rf $RPM_BUILD_ROOT

@@ -210,12 +210,9 @@ poleceñ.
 
 %build
 cd dist
-rm -f config.sub
-rm -f aclocal/libtool.ac
-rm -f ltmain.sh
-cp %{_datadir}/aclocal/libtool.m4 aclocal/libtool.ac
-cp %{_datadir}/automake/config.sub .
-cp %{_datadir}/libtool/ltmain.sh .
+cp -f %{_datadir}/aclocal/libtool.m4 aclocal/libtool.ac
+cp -f %{_datadir}/automake/config.sub .
+cp -f %{_datadir}/libtool/ltmain.sh .
 sh s_config
 cd ..
 

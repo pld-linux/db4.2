@@ -2,7 +2,7 @@ Summary:	BSD database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db
 Version:	4.1.24
-Release:	3.1
+Release:	4
 License:	GPL
 Group:		Libraries
 Source0:	http://www.berkeleydb.com/update/snapshot/%{name}-%{version}.tar.gz
@@ -12,6 +12,7 @@ Patch2:		http://www.sleepycat.com/update/4.1.24/patch.4.1.24.3
 Patch3:		http://www.sleepycat.com/update/4.1.24/patch.4.1.24.4
 Patch4:		http://www.sleepycat.com/update/4.1.24/patch.4.1.24.5
 Patch5:		http://www.sleepycat.com/update/4.1.24/patch.4.1.24.6
+Patch6:		%{name}-o_direct.patch
 URL:		http://www.berkeleydb.com/
 %{?_with_java:BuildRequires:	jdk}
 BuildRequires:	tcl-devel >= 8.3.2
@@ -163,9 +164,14 @@ u¿ywaj±cych Berkeley DB.
 %patch3 -p0
 %patch4 -p0
 %patch5 -p0
+%patch6 -p1
 
 
 %build
+cd dist
+sh s_config
+cd ..
+
 cp -a build_unix build_unix.static
 
 cd build_unix.static

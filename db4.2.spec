@@ -241,7 +241,7 @@ cd ../build_unix
 	--enable-rpc \
 	--enable-cxx \
 	%{?with_tcl:--enable-tcl} \
-	%{?wit_tcl:--with-tcl=/usr/lib} \
+	%{?with_tcl:--with-tcl=/usr/lib} \
 	%{?with_java:--enable-java} \
 	--disable-static \
 	--enable-shared 
@@ -304,10 +304,8 @@ rm -rf $RPM_BUILD_ROOT
 %post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
-%if %{with tcl}
 %post	tcl -p /sbin/ldconfig
 %postun	tcl -p /sbin/ldconfig
-%endif
 
 %post	cxx -p /sbin/ldconfig
 %postun	cxx -p /sbin/ldconfig

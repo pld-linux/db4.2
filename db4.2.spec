@@ -15,6 +15,7 @@ Group:		Libraries
 #Source0Download: http://www.sleepycat.com/download/
 Source0:	http://www.sleepycat.com/update/snapshot/%{name}-%{version}.tar.gz
 # Source0-md5:	cbc77517c9278cdb47613ce8cb55779f
+Patch0:		%{name}-so-suffix.patch
 URL:		http://www.sleepycat.com/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -149,6 +150,19 @@ Berkeley database library for Java.
 %description java -l pl
 Biblioteka baz danych Berkeley dla Javy.
 
+%package java-devel
+Summary:        Development files for db-java library
+Summary(pl):    Pliki programistyczne biblioteki db-java
+Group:          Development/Languages/Java
+Requires:       %{name}-java = %{epoch}:%{version}-%{release}
+Conflicts:      db-devel < 4.1.25-3
+
+%description java-devel
+Development files for db-java library.
+
+%description java-devel -l pl
+Pliki programistyczne biblioteki db-java.
+
 %package tcl
 Summary:	Berkeley database library for TCL
 Summary(pl):	Biblioteka baz danych Berkeley dla TCL
@@ -207,6 +221,7 @@ poleceñ.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 cd dist
@@ -279,6 +294,9 @@ ln -sf libdb-4.2.so libndbm.so
 ln -sf libdb-4.2.la libdb.la
 ln -sf libdb-4.2.la libdb4.la
 ln -sf libdb-4.2.la libndbm.la
+%if %{with java}
+ln -sf libdb_java-4.2.la libdb_java.la
+%endif
 %if %{with tcl}
 ln -sf libdb_tcl-4.2.so libdb_tcl.so
 ln -sf libdb_tcl-4.2.la libdb_tcl.la
@@ -377,6 +395,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libdb_java*.so
 %{_libdir}/db.jar
+
+%files java-devel
+%defattr(644,root,root,755)
+%{_libdir}/libdb_java-4.2.la
+%{_libdir}/libdb_java.la
+%{_libdir}/libdb_java.so
 %{_docdir}/%{name}-%{version}-docs/java
 %{_examplesdir}/%{name}-java-%{version}
 %endif

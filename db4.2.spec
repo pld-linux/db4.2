@@ -151,11 +151,11 @@ Berkeley database library for Java.
 Biblioteka baz danych Berkeley dla Javy.
 
 %package java-devel
-Summary:        Development files for db-java library
-Summary(pl):    Pliki programistyczne biblioteki db-java
-Group:          Development/Languages/Java
-Requires:       %{name}-java = %{epoch}:%{version}-%{release}
-Conflicts:      db-devel < 4.1.25-3
+Summary:	Development files for db-java library
+Summary(pl):	Pliki programistyczne biblioteki db-java
+Group:		Development/Languages/Java
+Requires:	%{name}-java = %{epoch}:%{version}-%{release}
+Conflicts:	db-devel < 4.1.25-3
 
 %description java-devel
 Development files for db-java library.
@@ -334,8 +334,8 @@ cp -rf examples_java/* $RPM_BUILD_ROOT%{_examplesdir}/%{name}-java-%{version}
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post   -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
 
 %post	tcl -p /sbin/ldconfig
 %postun	tcl -p /sbin/ldconfig

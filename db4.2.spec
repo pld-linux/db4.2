@@ -30,7 +30,7 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	rpmbuild(macros) >= 1.164
 BuildRequires:	sed >= 4.0
 %{?with_tcl:BuildRequires:	tcl-devel >= 8.4.0}
-BuildRoot:	%{tmpdir}/db-%{version}-root-%(id -u -n)
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 The Berkeley Database (Berkeley DB) is a programmatic toolkit that
@@ -48,7 +48,7 @@ Pythonie i Perlu.
 Summary:	Header files for Berkeley database library
 Summary(pl):	Pliki nag³ówkowe do biblioteki Berkeley Database
 Group:		Development/Libraries
-Requires:	db = %{epoch}:%{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description devel
 The Berkeley Database (Berkeley DB) is a programmatic toolkit that
@@ -76,7 +76,7 @@ programów u¿ywaj±cych Berkeley DB.
 Summary:	Static libraries for Berkeley database library
 Summary(pl):	Statyczne biblioteki Berkeley Database
 Group:		Development/Libraries
-Requires:	db-devel = %{epoch}:%{version}-%{release}
+Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 
 %description static
 The Berkeley Database (Berkeley DB) is a programmatic toolkit that
@@ -115,8 +115,8 @@ Biblioteka baz danych Berkeley dla C++.
 Summary:	Header files for db-cxx library
 Summary(pl):	Pliki nag³ówkowe biblioteki db-cxx
 Group:		Development/Libraries
-Requires:	db-cxx = %{epoch}:%{version}-%{release}
-Requires:	db-devel = %{epoch}:%{version}-%{release}
+Requires:	%{name}-cxx = %{epoch}:%{version}-%{release}
+Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 Conflicts:	db-devel < 4.1.25-3
 
 %description cxx-devel
@@ -129,7 +129,7 @@ Pliki nag³ówkowe biblioteki db-cxx.
 Summary:	Static version of db-cxx library
 Summary(pl):	Statyczna wersja biblioteki db-cxx
 Group:		Development/Libraries
-Requires:	db-cxx-devel = %{epoch}:%{version}-%{release}
+Requires:	%{name}-cxx-devel = %{epoch}:%{version}-%{release}
 Conflicts:	db-static < 4.2.50-1
 
 %description cxx-static
@@ -154,7 +154,7 @@ Biblioteka baz danych Berkeley dla Javy.
 Summary:	Development files for db-java library
 Summary(pl):	Pliki programistyczne biblioteki db-java
 Group:		Development/Languages/Java
-Requires:	db-java = %{epoch}:%{version}-%{release}
+Requires:	%{name}-java = %{epoch}:%{version}-%{release}
 Conflicts:	db-devel < 4.1.25-3
 
 %description java-devel
@@ -179,8 +179,7 @@ Biblioteka baz danych Berkeley dla Tcl.
 Summary:	Development files for db-tcl library
 Summary(pl):	Pliki programistyczne biblioteki db-tcl
 Group:		Development/Languages/Tcl
-Requires:	tcl
-Requires:	db-tcl = %{epoch}:%{version}-%{release}
+Requires:	%{name}-tcl = %{epoch}:%{version}-%{release}
 Conflicts:	db-devel < 4.1.25-3
 
 %description tcl-devel
@@ -193,7 +192,7 @@ Pliki programistyczne biblioteki db-tcl.
 Summary:	Command line tools for managing Berkeley DB databases
 Summary(pl):	Narzêdzia do obs³ugi baz Berkeley DB z linii poleceñ
 Group:		Applications/Databases
-Requires:	db = %{epoch}:%{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description utils
 The Berkeley Database (Berkeley DB) is a programmatic toolkit that
@@ -291,6 +290,11 @@ install -d $RPM_BUILD_ROOT%{_javadir}
 	DESTDIR=$RPM_BUILD_ROOT \
 	LIB_INSTALL_FILE_LIST=""
 
+cd $RPM_BUILD_ROOT%{_libdir}
+mv -f libdb.a libdb-4.2.a
+mv -f libdb_cxx.a libdb_cxx-4.2.a
+cd -
+
 sed -i "s/old_library=''/old_library='libdb-4.2.a'/" $RPM_BUILD_ROOT%{_libdir}/libdb-4.2.la
 sed -i "s/old_library=''/old_library='libdb_cxx-4.2.a'/" $RPM_BUILD_ROOT%{_libdir}/libdb_cxx-4.2.la
 
@@ -329,7 +333,6 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %{_libdir}/libdb-4.2.la
-%{_libdir}/libdb-4.so
 %{_includedir}/db.h
 %{_includedir}/db_185.h
 %{_docdir}/db-%{version}-docs/api_c
@@ -349,7 +352,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_includedir}/db_cxx.h
 %{_libdir}/libdb_cxx-4.2.la
-%{_libdir}/libdb_cxx-4.so
 %{_docdir}/db-%{version}-docs/api_cxx
 %{_examplesdir}/db-cxx-%{version}
 
@@ -360,14 +362,12 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with java}
 %files java
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libdb_java*.so
+%attr(755,root,root) %{_libdir}/libdb_java-4.2.so
 %{_javadir}/db.jar
 
 %files java-devel
 %defattr(644,root,root,755)
 %{_libdir}/libdb_java-4.2.la
-%{_libdir}/libdb_java.la
-%{_libdir}/libdb_java.so
 %{_docdir}/db-%{version}-docs/java
 %{_examplesdir}/db-java-%{version}
 %endif
@@ -380,7 +380,6 @@ rm -rf $RPM_BUILD_ROOT
 %files tcl-devel
 %defattr(644,root,root,755)
 %{_libdir}/libdb_tcl-4.2.la
-%{_libdir}/libdb_tcl.so
 %{_docdir}/db-%{version}-docs/api_tcl
 %endif
 

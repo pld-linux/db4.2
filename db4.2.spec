@@ -253,16 +253,12 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_includedir},%{_libdir},%{_bindir},/lib}
 
 %{__make} -C build_unix.static library_install \
-	bindir=$RPM_BUILD_ROOT%{_bindir} \
-	prefix=$RPM_BUILD_ROOT%{_prefix} \
-	libdir=$RPM_BUILD_ROOT%{_libdir} \
-	includedir=$RPM_BUILD_ROOT%{_includedir}
+	docdir=%{_docdir}/%{name}-%{version}-docs \
+	DESTDIR=$RPM_BUILD_ROOT
 
 %{__make} -C build_unix library_install \
-	bindir=$RPM_BUILD_ROOT%{_bindir} \
-	prefix=$RPM_BUILD_ROOT%{_prefix} \
-	libdir=$RPM_BUILD_ROOT%{_libdir} \
-	includedir=$RPM_BUILD_ROOT%{_includedir} \
+	docdir=%{_docdir}/%{name}-%{version}-docs \
+	DESTDIR=$RPM_BUILD_ROOT \
 	LIB_INSTALL_FILE_LIST=""
 
 cd $RPM_BUILD_ROOT%{_libdir}
@@ -286,10 +282,18 @@ sed -e "s/old_library=''/old_library='libdb-4.2.a'/" libdb-4.2.la.tmp > libdb-4.
 sed -e "s/old_library=''/old_library='libdb_cxx-4.2.a'/" libdb_cxx-4.2.la.tmp > libdb_cxx-4.2.la
 rm -f libdb*.la.tmp
 
-#cd -
-#cd ..
-#rm -rf examples_java
-#cp -a java/src/com/sleepycat/examples examples_java
+cd -
+rm -f examples_c*/tags
+install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
+cp -rf examples_c/* $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
+
+install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-cxx-%{version}
+cp -rf examples_cxx/* $RPM_BUILD_ROOT%{_examplesdir}/%{name}-cxx-%{version}
+
+%if %{with java}
+install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-java-%{version}
+cp -rf examples_java/* $RPM_BUILD_ROOT%{_examplesdir}/%{name}-java-%{version}
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -307,10 +311,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc LICENSE README
 %attr(755,root,root) %{_libdir}/libdb-*.so
+%dir %{_docdir}/%{name}-%{version}-docs
+%{_docdir}/%{name}-%{version}-docs/sleepycat
+%{_docdir}/%{name}-%{version}-docs/index.html
 
 %files devel
 %defattr(644,root,root,755)
-%doc docs/{api*,ref,index.html,sleepycat,images} examples_c*
 %{_libdir}/libdb-4.2.la
 %{_libdir}/libdb.la
 %{_libdir}/libdb.so
@@ -320,6 +326,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libndbm.so
 %{_includedir}/db.h
 %{_includedir}/db_185.h
+%{_docdir}/%{name}-%{version}-docs/api_c
+%{_docdir}/%{name}-%{version}-docs/images
+%{_docdir}/%{name}-%{version}-docs/ref
+%{_docdir}/%{name}-%{version}-docs/reftoc.html
+%{_examplesdir}/%{name}-%{version}
 
 %files static
 %defattr(644,root,root,755)
@@ -338,6 +349,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libdb_cxx-4.2.la
 %{_libdir}/libdb_cxx.la
 %{_libdir}/libdb_cxx.so
+%{_docdir}/%{name}-%{version}-docs/api_cxx
+%{_examplesdir}/%{name}-cxx-%{version}
 
 %files cxx-static
 %defattr(644,root,root,755)
@@ -348,7 +361,9 @@ rm -rf $RPM_BUILD_ROOT
 %files java
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libdb_java*.so
-%attr(644,root,root) %{_libdir}/db.jar
+%{_libdir}/db.jar
+%{_docdir}/%{name}-%{version}-docs/java
+%{_examplesdir}/%{name}-java-%{version}
 %endif
 
 %files tcl
@@ -360,10 +375,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libdb_tcl-4.2.la
 %{_libdir}/libdb_tcl.la
 %{_libdir}/libdb_tcl.so
+%{_docdir}/%{name}-%{version}-docs/api_tcl
 
 %files utils
 %defattr(644,root,root,755)
-%doc docs/utility/*
 %attr(755,root,root) %{_bindir}/berkeley_db_svc
 %attr(755,root,root) %{_bindir}/db*_archive
 %attr(755,root,root) %{_bindir}/db*_checkpoint
@@ -376,3 +391,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/db*_stat
 %attr(755,root,root) %{_bindir}/db*_upgrade
 %attr(755,root,root) %{_bindir}/db*_verify
+%{_docdir}/%{name}-%{version}-docs/utility

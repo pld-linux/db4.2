@@ -3,7 +3,7 @@
 %bcond_with	java	# build db-java (required for openoffice)
 %bcond_without	tcl	# don't build tcl bindings
 %bcond_with	nptl	# enable posix mutexes
-
+#
 Summary:	Berkeley DB database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db
@@ -19,9 +19,7 @@ URL:		http://www.sleepycat.com/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	ed
-# gcc-java or jdk
-# but requires some Java VM - gij is not sufficient
-%{?with_java:BuildRequires:	jdk}
+%{?with_java:BuildRequires:	jdkgcj >= 0.3.1-2}
 BuildRequires:	libtool
 BuildRequires:	libstdc++-devel
 BuildRequires:	sed >= 4.0

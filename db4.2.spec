@@ -212,6 +212,7 @@ export CC CXX CFLAGS CXXFLAGS
 
 ../dist/configure \
 	--prefix=%{_prefix} \
+	--libdir=%{_libdir} \
 	--enable-compat185 \
 	--disable-shared \
 	--enable-static \
@@ -227,6 +228,7 @@ cd ../build_unix
 
 ../dist/configure \
 	--prefix=%{_prefix} \
+	--libdir=%{_libdir} \
 	--enable-compat185 \
 	--enable-shared \
 	--disable-static \
@@ -246,12 +248,14 @@ install -d $RPM_BUILD_ROOT{%{_includedir},%{_libdir},%{_bindir},/lib}
 cd build_unix.static
 
 %{__make} library_install \
-	prefix=$RPM_BUILD_ROOT%{_prefix}
+	prefix=$RPM_BUILD_ROOT%{_prefix} \
+	libdir=$RPM_BUILD_ROOT%{_libdir} 
 
 cd ../build_unix
 
 %{__make} library_install \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
+	libdir=$RPM_BUILD_ROOT%{_libdir} \
 	includedir=$RPM_BUILD_ROOT%{_includedir} \
 	LIB_INSTALL_FILE_LIST=""
 

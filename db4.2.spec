@@ -8,7 +8,7 @@ Summary:	Berkeley DB database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db
 Version:	4.2.52
-Release:	3
+Release:	4
 License:	Sleepycat public license (GPL-like, see LICENSE)
 Group:		Libraries
 # alternative site (sometimes working): http://www.berkeleydb.com/
@@ -27,8 +27,6 @@ BuildRequires:	sed >= 4.0
 %{?with_tcl:BuildRequires:	tcl-devel >= 8.4.0}
 Obsoletes:	db4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		_javalibdir	/usr/share/java
 
 %description
 The Berkeley Database (Berkeley DB) is a programmatic toolkit that
@@ -279,7 +277,7 @@ cd ../build_unix
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_includedir},%{_libdir},%{_bindir},/lib}
 %if %{with java}
-install -d $RPM_BUILD_ROOT%{_javalibdir}
+install -d $RPM_BUILD_ROOT%{_javadir}
 %endif
 
 %{__make} -C build_unix.static library_install \
@@ -301,7 +299,7 @@ ln -sf libdb-4.2.la libdb4.la
 ln -sf libdb-4.2.la libndbm.la
 %if %{with java}
 ln -sf libdb_java-4.2.la libdb_java.la
-mv -f *.jar $RPM_BUILD_ROOT%{_javalibdir}
+mv -f *.jar $RPM_BUILD_ROOT%{_javadir}
 %endif
 %if %{with tcl}
 ln -sf libdb_tcl-4.2.so libdb_tcl.so
@@ -400,7 +398,7 @@ rm -rf $RPM_BUILD_ROOT
 %files java
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libdb_java*.so
-%{_javalibdir}/db.jar
+%{_javadir}/db.jar
 
 %files java-devel
 %defattr(644,root,root,755)

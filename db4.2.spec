@@ -280,6 +280,7 @@ ln -sf libdb-4.2.la libdb.la
 ln -sf libdb-4.2.la libdb4.la
 ln -sf libdb-4.2.la libndbm.la
 %if %{with tcl}
+ln -sf libdb_tcl-4.2.so libdb_tcl.so
 ln -sf libdb_tcl-4.2.la libdb_tcl.la
 %endif
 ln -sf libdb_cxx-4.2.la libdb_cxx.la

@@ -2,16 +2,15 @@ Summary:	BSD database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db
 Version:	4.1.24
-Release:	1
+Release:	2
 License:	GPL
 Group:		Libraries
 Source0:	http://www.berkeleydb.com/update/snapshot/%{name}-%{version}.tar.gz
 URL:		http://www.berkeleydb.com/
-#BuildRequires:	glibc-static
-%{?_with_java:BuildRequires:	java}
+%{?_with_java:BuildRequires:	jdk}
 BuildRequires:	tcl-devel >= 8.3.2
+Obsoletes:	db4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
 
 %description
 The Berkeley Database (Berkeley DB) is a programmatic toolkit that
@@ -30,6 +29,7 @@ Summary:	Command line tools for managing Berkeley DB databases
 Summary(pl):	Narzêdzia do obs³ugi baz Berkeley DB z linii poleceñ
 Group:		Applications/Databases
 Requires:	%{name} = %{version}
+Obsoletes:	db4-utils
 
 %description utils
 The Berkeley Database (Berkeley DB) is a programmatic toolkit that
@@ -58,6 +58,7 @@ Summary:	Berkeley database library for TCL
 Summary(pl):	Biblioteka baz danych Berkeley dla TCL
 Group:		Development/Languages/Tcl
 Requires:	tcl
+Obsoletes:	db4-tcl
 
 %description tcl
 Berkeley database library for TCL.
@@ -69,6 +70,7 @@ Biblioteka baz danych Berkeley dla TCL.
 Summary:	Berkeley database library for C++
 Summary(pl):	Biblioteka baz danych Berkeley dla C++
 Group:		Libraries
+Obsoletes:	db4-cxx
 
 %description cxx
 Berkeley database library for C++.
@@ -92,6 +94,8 @@ Summary:	Header files for Berkeley database library
 Summary(pl):	Pliki nag³ówkowe do biblioteki Berkeley Database
 Group:		Development/Libraries
 Requires:	%{name} = %{version}
+Obsoletes:	db4-devel
+Obsoletes:	db3-devel
 
 %description devel
 The Berkeley Database (Berkeley DB) is a programmatic toolkit that
@@ -120,6 +124,8 @@ Summary:	Static libraries for Berkeley database library
 Summary(pl):	Statyczne biblioteki Berkeley Database
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}
+Obsoletes:	db4-static
+Obsoletes:	db3-static
 
 %description static
 The Berkeley Database (Berkeley DB) is a programmatic toolkit that
@@ -213,12 +219,19 @@ cd ../build_unix
 	LIB_INSTALL_FILE_LIST=""
 
 (cd $RPM_BUILD_ROOT%{_libdir}
+ln -sf libdb-4.1.so libdb4.so
+ln -sf libdb-4.1.so libndbm.so
 ln -sf libdb-4.1.la libdb.la
 ln -sf libdb-4.1.la libdb4.la
+ln -sf libdb-4.1.la libndbm.la
 ln -sf libdb_tcl-4.1.la libdb_tcl.la
 ln -sf libdb_cxx-4.1.la libdb_cxx.la
 mv -f libdb.a libdb-4.1.a
+ln -sf libdb-4.1.a libdb.a
+ln -sf libdb-4.1.a libdb4.a
+ln -sf libdb-4.1.a libndbm.a
 mv -f libdb_cxx.a libdb_cxx-4.1.a
+ln -sf libdb_cxx-4.1.a libdb_cxx.a
 
 mv -f libdb-4.1.la libdb-4.1.la.tmp
 mv -f libdb_cxx-4.1.la libdb_cxx-4.1.la.tmp
@@ -226,7 +239,6 @@ sed -e "s/old_library=''/old_library='libdb-4.1.a'/" libdb-4.1.la.tmp > libdb-4.
 sed -e "s/old_library=''/old_library='libdb_cxx-4.1.a'/" libdb_cxx-4.1.la.tmp > libdb_cxx-4.1.la
 rm -f libdb*.la.tmp
 )
-
 
 cd ..
 #rm -rf examples_java
@@ -285,11 +297,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc docs/{api*,ref,index.html,sleepycat,images} examples_c*
 %attr(755,root,root) %{_libdir}/libdb*.la
-#%attr(755,root,root) %{_libdir}/libdb.so
-%attr(755,root,root) %{_libdir}/libdb*.so
-#%attr(755,root,root) %{_libdir}/libndbm.so
-#%attr(755,root,root) %{_libdir}/libdb_tcl.so
-#%attr(755,root,root) %{_libdir}/libdb_cxx.so
+%attr(755,root,root) %{_libdir}/libndbm.la
+%attr(755,root,root) %{_libdir}/libdb.so
+%attr(755,root,root) %{_libdir}/libdb4.so
+%attr(755,root,root) %{_libdir}/libndbm.so
+%attr(755,root,root) %{_libdir}/libdb_tcl.so
+%attr(755,root,root) %{_libdir}/libdb_cxx.so
 %{_includedir}/*
 
 %files static

@@ -3,7 +3,7 @@
 %bcond_with	java	# build db-java (required for openoffice)
 %bcond_without	tcl	# don't build Tcl bindings
 %bcond_with	pmutex	# use POSIX mutexes (only process-private with linuxthreads)
-%bcond_with	nptl	# synonym for pmutex (NPTL provides full interface)
+%bcond_with	nptl	# use process-shared POSIX mutexes (NPTL provides full interface)
 #
 %{?with_nptl:%define	with_pmutex	1}
 Summary:	Berkeley DB database library for C
@@ -221,6 +221,10 @@ poleceñ.
 %patch0 -p1
 %patch1 -p0
 %patch2 -p0
+
+%if %{without nptl}
+sed -i -e 's,AM_PTHREADS_SHARED("POSIX/.*,:,' dist/aclocal/mutex.ac
+%endif
 
 %build
 cd dist

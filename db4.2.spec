@@ -32,6 +32,8 @@ BuildRequires:	sed >= 4.0
 %{?with_tcl:BuildRequires:	tcl-devel >= 8.4.0}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define		_includedir	%{_prefix}/include/db4.2
+
 %description
 The Berkeley Database (Berkeley DB) is a programmatic toolkit that
 provides embedded database support for both traditional and
@@ -286,13 +288,15 @@ install -d $RPM_BUILD_ROOT%{_javadir}
 %endif
 
 %{__make} -C build_unix.static library_install \
+	DESTDIR=$RPM_BUILD_ROOT \
 	docdir=%{_docdir}/db-%{version}-docs \
-	DESTDIR=$RPM_BUILD_ROOT
+	includedir=%{_includedir}
 
 %{__make} -C build_unix library_install \
-	docdir=%{_docdir}/db-%{version}-docs \
 	DESTDIR=$RPM_BUILD_ROOT \
-	LIB_INSTALL_FILE_LIST=""
+	LIB_INSTALL_FILE_LIST="" \
+	docdir=%{_docdir}/db-%{version}-docs \
+	includedir=%{_includedir}
 
 cd $RPM_BUILD_ROOT%{_libdir}
 mv -f libdb.a libdb-4.2.a
@@ -338,6 +342,7 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %{_libdir}/libdb-4.2.la
+%dir %{_includedir}
 %{_includedir}/db.h
 %{_includedir}/db_185.h
 %{_docdir}/db-%{version}-docs/api_c

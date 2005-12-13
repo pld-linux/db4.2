@@ -25,8 +25,8 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	ed
 %{?with_java:BuildRequires:	jdk}
-BuildRequires:	libtool
 BuildRequires:	libstdc++-devel
+BuildRequires:	libtool
 BuildRequires:	rpmbuild(macros) >= 1.164
 BuildRequires:	sed >= 4.0
 %{?with_tcl:BuildRequires:	tcl-devel >= 8.4.0}
@@ -273,7 +273,7 @@ cd ../build_unix
 	%{?with_tcl:--with-tcl=/usr/lib} \
 	%{?with_java:--enable-java} \
 	--disable-static \
-	--enable-shared 
+	--enable-shared
 
 %{__make} library_build \
 	TCFLAGS='-I$(builddir) -I%{_includedir}' \

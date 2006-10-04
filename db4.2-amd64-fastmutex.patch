@@ -1,0 +1,12 @@
+--- db4.2-4.2.52.orig/dist/aclocal/mutex.ac
++++ db4.2-4.2.52/dist/aclocal/mutex.ac
+@@ -420,7 +433,7 @@
+ # x86/gcc: FreeBSD, NetBSD, BSD/OS, Linux
+ if test "$db_cv_mutex" = no; then
+ AC_TRY_COMPILE(,[
+-#if (defined(i386) || defined(__i386__)) && defined(__GNUC__)
++#if (defined(i386) || defined(__i386__) || defined(__x86_64__)) && defined(__GNUC__)
+ 	exit(0);
+ #else
+ 	FAIL TO COMPILE/LINK
+

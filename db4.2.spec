@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_with	java	# build db-java (required for openoffice)
+%bcond_with	java	# build db-java
 %bcond_without	tcl	# don't build Tcl bindings
 %bcond_with	pmutex	# use POSIX mutexes (only process-private with linuxthreads)
 %bcond_with	nptl	# use process-shared POSIX mutexes (NPTL provides full interface)
@@ -20,6 +20,9 @@ Source0:	http://downloads.sleepycat.com/db-%{version}.tar.gz
 Patch0:		db-so-suffix.patch
 Patch1:		patch.4.2.52.1
 Patch2:		patch.4.2.52.2
+Patch3:		patch.4.2.52.3
+Patch4:		patch.4.2.52.4
+Patch5:		%{name}-amd64-fastmutex.patch
 URL:		http://www.sleepycat.com/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -169,7 +172,6 @@ Pliki programistyczne biblioteki db-java.
 Summary:	Berkeley database library for Tcl
 Summary(pl):	Biblioteka baz danych Berkeley dla Tcl
 Group:		Development/Languages/Tcl
-Requires:	tcl
 
 %description tcl
 Berkeley database library for Tcl.
@@ -223,6 +225,9 @@ poleceñ.
 %patch0 -p1
 %patch1 -p0
 %patch2 -p0
+%patch3 -p0
+%patch4 -p0
+%patch5 -p1
 
 %if %{without nptl}
 sed -i -e 's,AM_PTHREADS_SHARED("POSIX/.*,:,' dist/aclocal/mutex.ac

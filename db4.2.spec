@@ -229,7 +229,7 @@ poleceñ.
 %patch4 -p0
 %patch5 -p1
 
-%if %{without nptl}
+%if !%{with nptl}
 sed -i -e 's,AM_PTHREADS_SHARED("POSIX/.*,:,' dist/aclocal/mutex.ac
 %endif
 

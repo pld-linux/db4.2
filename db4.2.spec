@@ -7,7 +7,7 @@
 #
 %{?with_nptl:%define	with_pmutex	1}
 Summary:	Berkeley DB database library for C
-Summary(pl.UTF-8):   Biblioteka C do obsługi baz Berkeley DB
+Summary(pl.UTF-8):	Biblioteka C do obsługi baz Berkeley DB
 Name:		db4.2
 Version:	4.2.52
 Release:	1
@@ -51,7 +51,7 @@ Pythonie i Perlu.
 
 %package devel
 Summary:	Header files for Berkeley database library
-Summary(pl.UTF-8):   Pliki nagłówkowe do biblioteki Berkeley Database
+Summary(pl.UTF-8):	Pliki nagłówkowe do biblioteki Berkeley Database
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -79,7 +79,7 @@ programów używających Berkeley DB.
 
 %package static
 Summary:	Static libraries for Berkeley database library
-Summary(pl.UTF-8):   Statyczne biblioteki Berkeley Database
+Summary(pl.UTF-8):	Statyczne biblioteki Berkeley Database
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 
@@ -107,7 +107,7 @@ używających Berkeley DB.
 
 %package cxx
 Summary:	Berkeley database library for C++
-Summary(pl.UTF-8):   Biblioteka baz danych Berkeley dla C++
+Summary(pl.UTF-8):	Biblioteka baz danych Berkeley dla C++
 Group:		Libraries
 
 %description cxx
@@ -118,7 +118,7 @@ Biblioteka baz danych Berkeley dla C++.
 
 %package cxx-devel
 Summary:	Header files for db-cxx library
-Summary(pl.UTF-8):   Pliki nagłówkowe biblioteki db-cxx
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki db-cxx
 Group:		Development/Libraries
 Requires:	%{name}-cxx = %{epoch}:%{version}-%{release}
 Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
@@ -132,7 +132,7 @@ Pliki nagłówkowe biblioteki db-cxx.
 
 %package cxx-static
 Summary:	Static version of db-cxx library
-Summary(pl.UTF-8):   Statyczna wersja biblioteki db-cxx
+Summary(pl.UTF-8):	Statyczna wersja biblioteki db-cxx
 Group:		Development/Libraries
 Requires:	%{name}-cxx-devel = %{epoch}:%{version}-%{release}
 Conflicts:	db-static < 4.2.50-1
@@ -145,7 +145,7 @@ Statyczna wersja biblioteki db-cxx.
 
 %package java
 Summary:	Berkeley database library for Java
-Summary(pl.UTF-8):   Biblioteka baz danych Berkeley dla Javy
+Summary(pl.UTF-8):	Biblioteka baz danych Berkeley dla Javy
 Group:		Libraries
 Requires:	jre
 
@@ -157,7 +157,7 @@ Biblioteka baz danych Berkeley dla Javy.
 
 %package java-devel
 Summary:	Development files for db-java library
-Summary(pl.UTF-8):   Pliki programistyczne biblioteki db-java
+Summary(pl.UTF-8):	Pliki programistyczne biblioteki db-java
 Group:		Development/Languages/Java
 Requires:	%{name}-java = %{epoch}:%{version}-%{release}
 Conflicts:	db-devel < 4.1.25-3
@@ -170,7 +170,7 @@ Pliki programistyczne biblioteki db-java.
 
 %package tcl
 Summary:	Berkeley database library for Tcl
-Summary(pl.UTF-8):   Biblioteka baz danych Berkeley dla Tcl
+Summary(pl.UTF-8):	Biblioteka baz danych Berkeley dla Tcl
 Group:		Development/Languages/Tcl
 
 %description tcl
@@ -181,7 +181,7 @@ Biblioteka baz danych Berkeley dla Tcl.
 
 %package tcl-devel
 Summary:	Development files for db-tcl library
-Summary(pl.UTF-8):   Pliki programistyczne biblioteki db-tcl
+Summary(pl.UTF-8):	Pliki programistyczne biblioteki db-tcl
 Group:		Development/Languages/Tcl
 Requires:	%{name}-tcl = %{epoch}:%{version}-%{release}
 Conflicts:	db-devel < 4.1.25-3
@@ -194,7 +194,7 @@ Pliki programistyczne biblioteki db-tcl.
 
 %package utils
 Summary:	Command line tools for managing Berkeley DB databases
-Summary(pl.UTF-8):   Narzędzia do obsługi baz Berkeley DB z linii poleceń
+Summary(pl.UTF-8):	Narzędzia do obsługi baz Berkeley DB z linii poleceń
 Group:		Applications/Databases
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 

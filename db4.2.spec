@@ -7,7 +7,7 @@
 #
 %{?with_nptl:%define	with_pmutex	1}
 Summary:	Berkeley DB database library for C
-Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
+Summary(pl.UTF-8):   Biblioteka C do obsÅ‚ugi baz Berkeley DB
 Name:		db4.2
 Version:	4.2.52
 Release:	1
@@ -43,15 +43,15 @@ provides embedded database support for both traditional and
 client/server applications. Berkeley DB is used by many applications,
 including Python and Perl, so this should be installed on all systems.
 
-%description -l pl
-Berkeley Database (Berkeley DB) to zestaw narzêdzi programistycznych
-zapewniaj±cych obs³ugê baz danych w aplikacjach tradycyjnych jak i
-klient-serwer. Berkeley db jest u¿ywana w wielu aplikacjach, w tym w
+%description -l pl.UTF-8
+Berkeley Database (Berkeley DB) to zestaw narzÄ™dzi programistycznych
+zapewniajÄ…cych obsÅ‚ugÄ™ baz danych w aplikacjach tradycyjnych jak i
+klient-serwer. Berkeley db jest uÅ¼ywana w wielu aplikacjach, w tym w
 Pythonie i Perlu.
 
 %package devel
 Summary:	Header files for Berkeley database library
-Summary(pl):	Pliki nag³ówkowe do biblioteki Berkeley Database
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe do biblioteki Berkeley Database
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -66,20 +66,20 @@ recovery. DB supports C, C++, Java and Perl APIs.
 This package contains the header files, libraries, and documentation
 for building programs which use Berkeley DB.
 
-%description devel -l pl
-Berkeley Database (Berkeley DB) to zestaw narzêdzi programistycznych
-zapewniaj±cych obs³ugê baz danych w aplikacjach tradycyjnych jak i
-klient-serwer. Berkeley DB obs³uguje dostêp do bazy przez B-drzewa i
-funkcje mieszaj±ce ze sta³± lub zmienn± wielko¶ci± rekordu,
-transakcje, kroniki, pamiêæ dzielon± i odtwarzanie baz. Ma wsparcie
+%description devel -l pl.UTF-8
+Berkeley Database (Berkeley DB) to zestaw narzÄ™dzi programistycznych
+zapewniajÄ…cych obsÅ‚ugÄ™ baz danych w aplikacjach tradycyjnych jak i
+klient-serwer. Berkeley DB obsÅ‚uguje dostÄ™p do bazy przez B-drzewa i
+funkcje mieszajÄ…ce ze staÅ‚Ä… lub zmiennÄ… wielkoÅ›ciÄ… rekordu,
+transakcje, kroniki, pamiÄ™Ä‡ dzielonÄ… i odtwarzanie baz. Ma wsparcie
 dla C, C++, Javy i Perla.
 
-Ten pakiet zawiera pliki nag³ówkowe i dokumentacjê do budowania
-programów u¿ywaj±cych Berkeley DB.
+Ten pakiet zawiera pliki nagÅ‚Ã³wkowe i dokumentacjÄ™ do budowania
+programÃ³w uÅ¼ywajÄ…cych Berkeley DB.
 
 %package static
 Summary:	Static libraries for Berkeley database library
-Summary(pl):	Statyczne biblioteki Berkeley Database
+Summary(pl.UTF-8):   Statyczne biblioteki Berkeley Database
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 
@@ -94,31 +94,31 @@ recovery. DB supports C, C++, Java and Perl APIs.
 This package contains the static libraries for building programs which
 use Berkeley DB.
 
-%description static -l pl
-Berkeley Database (Berkeley DB) to zestaw narzêdzi programistycznych
-zapewniaj±cych obs³ugê baz danych w aplikacjach tradycyjnych jak i
-klient-serwer. Berkeley DB obs³uguje dostêp do bazy przez B-drzewa i
-funkcje mieszaj±ce ze sta³± lub zmienn± wielko¶ci± rekordu,
-transakcje, kroniki, pamiêæ dzielon± i odtwarzanie baz. Ma wsparcie
+%description static -l pl.UTF-8
+Berkeley Database (Berkeley DB) to zestaw narzÄ™dzi programistycznych
+zapewniajÄ…cych obsÅ‚ugÄ™ baz danych w aplikacjach tradycyjnych jak i
+klient-serwer. Berkeley DB obsÅ‚uguje dostÄ™p do bazy przez B-drzewa i
+funkcje mieszajÄ…ce ze staÅ‚Ä… lub zmiennÄ… wielkoÅ›ciÄ… rekordu,
+transakcje, kroniki, pamiÄ™Ä‡ dzielonÄ… i odtwarzanie baz. Ma wsparcie
 dla C, C++, Javy i Perla.
 
-Ten pakiet zawiera statyczne biblioteki do budowania programów
-u¿ywaj±cych Berkeley DB.
+Ten pakiet zawiera statyczne biblioteki do budowania programÃ³w
+uÅ¼ywajÄ…cych Berkeley DB.
 
 %package cxx
 Summary:	Berkeley database library for C++
-Summary(pl):	Biblioteka baz danych Berkeley dla C++
+Summary(pl.UTF-8):   Biblioteka baz danych Berkeley dla C++
 Group:		Libraries
 
 %description cxx
 Berkeley database library for C++.
 
-%description cxx -l pl
+%description cxx -l pl.UTF-8
 Biblioteka baz danych Berkeley dla C++.
 
 %package cxx-devel
 Summary:	Header files for db-cxx library
-Summary(pl):	Pliki nag³ówkowe biblioteki db-cxx
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe biblioteki db-cxx
 Group:		Development/Libraries
 Requires:	%{name}-cxx = %{epoch}:%{version}-%{release}
 Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
@@ -127,12 +127,12 @@ Conflicts:	db-devel < 4.1.25-3
 %description cxx-devel
 Header files for db-cxx library.
 
-%description cxx-devel -l pl
-Pliki nag³ówkowe biblioteki db-cxx.
+%description cxx-devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe biblioteki db-cxx.
 
 %package cxx-static
 Summary:	Static version of db-cxx library
-Summary(pl):	Statyczna wersja biblioteki db-cxx
+Summary(pl.UTF-8):   Statyczna wersja biblioteki db-cxx
 Group:		Development/Libraries
 Requires:	%{name}-cxx-devel = %{epoch}:%{version}-%{release}
 Conflicts:	db-static < 4.2.50-1
@@ -140,24 +140,24 @@ Conflicts:	db-static < 4.2.50-1
 %description cxx-static
 Static version of db-cxx library.
 
-%description cxx-static -l pl
+%description cxx-static -l pl.UTF-8
 Statyczna wersja biblioteki db-cxx.
 
 %package java
 Summary:	Berkeley database library for Java
-Summary(pl):	Biblioteka baz danych Berkeley dla Javy
+Summary(pl.UTF-8):   Biblioteka baz danych Berkeley dla Javy
 Group:		Libraries
 Requires:	jre
 
 %description java
 Berkeley database library for Java.
 
-%description java -l pl
+%description java -l pl.UTF-8
 Biblioteka baz danych Berkeley dla Javy.
 
 %package java-devel
 Summary:	Development files for db-java library
-Summary(pl):	Pliki programistyczne biblioteki db-java
+Summary(pl.UTF-8):   Pliki programistyczne biblioteki db-java
 Group:		Development/Languages/Java
 Requires:	%{name}-java = %{epoch}:%{version}-%{release}
 Conflicts:	db-devel < 4.1.25-3
@@ -165,23 +165,23 @@ Conflicts:	db-devel < 4.1.25-3
 %description java-devel
 Development files for db-java library.
 
-%description java-devel -l pl
+%description java-devel -l pl.UTF-8
 Pliki programistyczne biblioteki db-java.
 
 %package tcl
 Summary:	Berkeley database library for Tcl
-Summary(pl):	Biblioteka baz danych Berkeley dla Tcl
+Summary(pl.UTF-8):   Biblioteka baz danych Berkeley dla Tcl
 Group:		Development/Languages/Tcl
 
 %description tcl
 Berkeley database library for Tcl.
 
-%description tcl -l pl
+%description tcl -l pl.UTF-8
 Biblioteka baz danych Berkeley dla Tcl.
 
 %package tcl-devel
 Summary:	Development files for db-tcl library
-Summary(pl):	Pliki programistyczne biblioteki db-tcl
+Summary(pl.UTF-8):   Pliki programistyczne biblioteki db-tcl
 Group:		Development/Languages/Tcl
 Requires:	%{name}-tcl = %{epoch}:%{version}-%{release}
 Conflicts:	db-devel < 4.1.25-3
@@ -189,12 +189,12 @@ Conflicts:	db-devel < 4.1.25-3
 %description tcl-devel
 Development files for db-tcl library.
 
-%description tcl-devel -l pl
+%description tcl-devel -l pl.UTF-8
 Pliki programistyczne biblioteki db-tcl.
 
 %package utils
 Summary:	Command line tools for managing Berkeley DB databases
-Summary(pl):	Narzêdzia do obs³ugi baz Berkeley DB z linii poleceñ
+Summary(pl.UTF-8):   NarzÄ™dzia do obsÅ‚ugi baz Berkeley DB z linii poleceÅ„
 Group:		Applications/Databases
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
@@ -209,16 +209,16 @@ recovery. DB supports C, C++, Java and Perl APIs.
 This package contains command line tools for managing Berkeley DB
 databases.
 
-%description utils -l pl
-Berkeley Database (Berkeley DB) to zestaw narzêdzi programistycznych
-zapewniaj±cych obs³ugê baz danych w aplikacjach tradycyjnych jak i
-klient-serwer. Berkeley DB obs³uguje dostêp do bazy przez B-drzewa i
-funkcje mieszaj±ce ze sta³± lub zmienn± wielko¶ci± rekordu,
-transakcje, kroniki, pamiêæ dzielon± i odtwarzanie baz. Ma wsparcie
+%description utils -l pl.UTF-8
+Berkeley Database (Berkeley DB) to zestaw narzÄ™dzi programistycznych
+zapewniajÄ…cych obsÅ‚ugÄ™ baz danych w aplikacjach tradycyjnych jak i
+klient-serwer. Berkeley DB obsÅ‚uguje dostÄ™p do bazy przez B-drzewa i
+funkcje mieszajÄ…ce ze staÅ‚Ä… lub zmiennÄ… wielkoÅ›ciÄ… rekordu,
+transakcje, kroniki, pamiÄ™Ä‡ dzielonÄ… i odtwarzanie baz. Ma wsparcie
 dla C, C++, Javy i Perla.
 
-Ten pakiet zawiera narzêdzia do obs³ugi baz Berkeley DB z linii
-poleceñ.
+Ten pakiet zawiera narzÄ™dzia do obsÅ‚ugi baz Berkeley DB z linii
+poleceÅ„.
 
 %prep
 %setup -q -n db-%{version}

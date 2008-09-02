@@ -5,32 +5,32 @@
 %bcond_with	pmutex	# use POSIX mutexes (only process-private with linuxthreads)
 %bcond_with	nptl	# use process-shared POSIX mutexes (NPTL provides full interface)
 #
+%define		ver			4.2.52
+%define		patchlevel	5
+#
 %{?with_nptl:%define	with_pmutex	1}
 Summary:	Berkeley DB database library for C
 Summary(pl.UTF-8):	Biblioteka C do obsługi baz Berkeley DB
 Name:		db4.2
-Version:	4.2.52
+Version:	%{ver}.%{patchlevel}
 Release:	1
 License:	Sleepycat public license (GPL-like, see LICENSE)
 Group:		Libraries
 # alternative site (sometimes working): http://www.berkeleydb.com/
-#Source0Download: http://dev.sleepycat.com/downloads/releasehistorybdb.html
-Source0:	http://downloads.sleepycat.com/db-%{version}.tar.gz
+#Source0Download: http://www.sleepycat.com/download/
+Source0:	http://www.sleepycat.com/update/snapshot/db-%{ver}.tar.gz
 # Source0-md5:	cbc77517c9278cdb47613ce8cb55779f
+%patchset_source -f http://www.oracle.com/technology/products/berkeley-db/db/update/%{ver}/patch.%{ver}.%g 1 %{patchlevel}
 Patch0:		db-so-suffix.patch
-Patch1:		patch.4.2.52.1
-Patch2:		patch.4.2.52.2
-Patch3:		patch.4.2.52.3
-Patch4:		patch.4.2.52.4
-Patch5:		%{name}-amd64-fastmutex.patch
-URL:		http://www.sleepycat.com/
+Patch1:		%{name}-amd64-fastmutex.patch
+URL:		http://www.oracle.com/technology/software/products/berkeley-db/db/index.html
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	ed
 %{?with_java:BuildRequires:	jdk}
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
-BuildRequires:	rpmbuild(macros) >= 1.164
+BuildRequires:	rpmbuild(macros) >= 1.426
 BuildRequires:	sed >= 4.0
 %{?with_tcl:BuildRequires:	tcl-devel >= 8.4.0}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -221,15 +221,15 @@ Ten pakiet zawiera narzędzia do obsługi baz Berkeley DB z linii
 poleceń.
 
 %prep
-%setup -q -n db-%{version}
-%patch0 -p1
-%patch1 -p0
-%patch2 -p0
-%patch3 -p0
-%patch4 -p0
-%patch5 -p1
+%setup -q -n db-%{ver}
 
-%if !%{with nptl}
+# official patches
+%patchset_patch 1 %{patchlevel}
+
+%patch0 -p1
+%patch1 -p1
+
+%if %{without nptl}
 sed -i -e 's,AM_PTHREADS_SHARED("POSIX/.*,:,' dist/aclocal/mutex.ac
 %endif
 
@@ -322,6 +322,8 @@ cp -rf examples_cxx/* $RPM_BUILD_ROOT%{_examplesdir}/db-cxx-%{version}
 install -d $RPM_BUILD_ROOT%{_examplesdir}/db-java-%{version}
 cp -rf examples_java/* $RPM_BUILD_ROOT%{_examplesdir}/db-java-%{version}
 mv $RPM_BUILD_ROOT%{_libdir}/db.jar $RPM_BUILD_ROOT%{_javadir}
+%else
+rm -rf $RPM_BUILD_ROOT%{_docdir}/db-%{version}-docs/java
 %endif
 
 %clean

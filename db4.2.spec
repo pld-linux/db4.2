@@ -19,7 +19,7 @@ Group:		Libraries
 #Source0Download: http://www.oracle.com/technetwork/database/berkeleydb/downloads/index-082944.html
 Source0:	http://download.oracle.com/berkeley-db/db-%{ver}.tar.gz
 # Source0-md5:	cbc77517c9278cdb47613ce8cb55779f
-%patchset_source -f http://www.oracle.com/technology/products/berkeley-db/db/update/%{ver}/patch.%{ver}.%g 1 %{patchlevel}
+%patchset_source -f http://download.oracle.com/berkeley-db/patches/db/%{ver}/patch.%{ver}.%g 1 %{patchlevel}
 Patch0:		db-so-suffix.patch
 Patch1:		%{name}-amd64-fastmutex.patch
 URL:		http://www.oracle.com/technetwork/database/berkeleydb/downloads/index.html

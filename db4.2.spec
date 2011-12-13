@@ -1,14 +1,14 @@
 #
 # Conditional build:
-%bcond_with	java	# build db-java
-%bcond_without	tcl	# don't build Tcl bindings
-%bcond_with	pmutex	# use POSIX mutexes (only process-private with linuxthreads)
-%bcond_with	nptl	# use process-shared POSIX mutexes (NPTL provides full interface)
+%bcond_without	java		# don't build Java library
+%bcond_without	tcl		# don't build Tcl bindings
+%bcond_with	pmutex		# use POSIX mutexes (only process-private with linuxthreads)
+%bcond_with	nptl		# use process-shared POSIX mutexes (NPTL provides full interface)
+%bcond_without	static_libs	# don't build static libraries
 %bcond_with	default_db	# use this db as default system db
 #
 %define		ver		4.2.52
 %define		patchlevel	5
-#
 %{?with_nptl:%define	with_pmutex	1}
 Summary:	Berkeley DB database library for C
 Summary(pl.UTF-8):	Biblioteka C do obsługi baz Berkeley DB
@@ -29,7 +29,7 @@ BuildRequires:	automake
 BuildRequires:	ed
 %{?with_java:BuildRequires:	jdk}
 BuildRequires:	libstdc++-devel
-BuildRequires:	libtool
+BuildRequires:	libtool >= 2:2.2
 BuildRequires:	rpmbuild(macros) >= 1.426
 BuildRequires:	sed >= 4.0
 %{?with_tcl:BuildRequires:	tcl-devel >= 8.4.0}
@@ -239,6 +239,8 @@ Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 %if %{with default_db}
 Provides:	db-utils = %{version}-%{release}
+Obsoletes:	db-utils
+Obsoletes:	db3-utils
 Obsoletes:	db4-utils
 %endif
 
@@ -266,7 +268,6 @@ poleceń.
 
 %prep
 %setup -q -n db-%{ver}
-
 # official patches
 %patchset_patch 1 %{patchlevel}
 
@@ -277,14 +278,21 @@ poleceń.
 sed -i -e 's,AM_PTHREADS_SHARED("POSIX/.*,:,' dist/aclocal/mutex.ac
 %endif
 
+sed -i -e '/AC_PROG_LIBTOOL/aLT_OUTPUT' dist/configure.ac
+
 %build
 cd dist
 cp -f /usr/share/aclocal/libtool.m4 aclocal/libtool.ac
+cp -f /usr/share/aclocal/ltoptions.m4 aclocal/ltoptions.ac
+cp -f /usr/share/aclocal/ltsugar.m4 aclocal/ltsugar.ac
+cp -f /usr/share/aclocal/ltversion.m4 aclocal/ltversion.ac
+cp -f /usr/share/aclocal/lt~obsolete.m4 aclocal/lt~obsolete.ac
 cp -f /usr/share/automake/config.sub .
-cp -f /usr/share/libtool/ltmain.sh .
+cp -f /usr/share/libtool/config/ltmain.sh .
 sh s_config
 cd ..
 
+%if %{with static_libs}
 cp -a build_unix build_unix.static
 
 cd build_unix.static
@@ -293,7 +301,7 @@ CC="%{__cc}"
 CXX="%{__cxx}"
 CFLAGS="%{rpmcflags}"
 CXXFLAGS="%{rpmcflags} -fno-implicit-templates"
-LDFLAGS="%{rpmldflags}"
+LDFLAGS="%{rpmcflags} %{rpmldflags}"
 export CC CXX CFLAGS CXXFLAGS LDFLAGS
 
 ../dist/%configure \
@@ -308,8 +316,10 @@ export CC CXX CFLAGS CXXFLAGS LDFLAGS
 #	--enable-dump185 \
 
 %{__make} library_build
+cd ..
+%endif
 
-cd ../build_unix
+cd build_unix
 
 ../dist/%configure \
 	--prefix=%{_prefix} \
@@ -336,10 +346,12 @@ install -d $RPM_BUILD_ROOT{%{_includedir},%{_libdir},%{_bindir}}
 install -d $RPM_BUILD_ROOT%{_javadir}
 %endif
 
+%if %{with static_libs}
 %{__make} -C build_unix.static library_install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	docdir=%{_docdir}/db-%{version}-docs \
 	includedir=%{_includedir}
+%endif
 
 %{__make} -C build_unix library_install \
 	DESTDIR=$RPM_BUILD_ROOT \
@@ -347,14 +359,59 @@ install -d $RPM_BUILD_ROOT%{_javadir}
 	docdir=%{_docdir}/db-%{version}-docs \
 	includedir=%{_includedir}
 
+%if %{with default_db}
+install -d $RPM_BUILD_ROOT/%{_lib}
+mv $RPM_BUILD_ROOT%{_libdir}/libdb-4.2.so $RPM_BUILD_ROOT/%{_lib}
+%endif
+
 cd $RPM_BUILD_ROOT%{_libdir}
+%if %{with static_libs}
 mv -f libdb.a libdb-4.2.a
 mv -f libdb_cxx.a libdb_cxx-4.2.a
+%endif
+%if %{with java}
+mv -f $RPM_BUILD_ROOT%{_libdir}/db.jar $RPM_BUILD_ROOT%{_javadir}/db-4.2.jar
+%endif
+%if %{with default_db}
+ln -sf /%{_lib}/libdb-4.2.so libdb.so
+ln -sf /%{_lib}/libdb-4.2.so libdb4.so
+ln -sf /%{_lib}/libdb-4.2.so libdb-4.2.so
+ln -sf /%{_lib}/libdb-4.2.so libndbm.so
+ln -sf libdb-4.2.la libdb.la
+ln -sf libdb-4.2.la libdb4.la
+ln -sf libdb-4.2.la libndbm.la
+ln -sf libdb_cxx-4.2.so libdb_cxx.so
+ln -sf libdb_cxx-4.2.la libdb_cxx.la
+%if %{with java}
+ln -sf libdb_java-4.2.la libdb_java.la
+ln -sf db-4.2.jar $RPM_BUILD_ROOT%{_javadir}/db.jar
+%endif
+%if %{with tcl}
+ln -sf libdb_tcl-4.2.so libdb_tcl.so
+ln -sf libdb_tcl-4.2.la libdb_tcl.la
+%endif
+%if %{with static_libs}
+ln -sf libdb-4.2.a libdb.a
+ln -sf libdb-4.2.a libdb4.a
+ln -sf libdb-4.2.a libndbm.a
+ln -sf libdb_cxx-4.2.a libdb_cxx.a
+%endif
+%endif
+
+sed -i "s/old_library=''/old_library='libdb-4.2.a'/" libdb-4.2.la
+sed -i "s/old_library=''/old_library='libdb_cxx-4.2.a'/" libdb_cxx-4.2.la
+
 cd -
 
-sed -i "s/old_library=''/old_library='libdb-4.2.a'/" $RPM_BUILD_ROOT%{_libdir}/libdb-4.2.la
-sed -i "s/old_library=''/old_library='libdb_cxx-4.2.a'/" $RPM_BUILD_ROOT%{_libdir}/libdb_cxx-4.2.la
-
+cd $RPM_BUILD_ROOT%{_bindir}
+mv -f berkeley_db_svc berkeley_db_svc-4.2
+%{?with_default_db:ln -sf berkeley_db_svc-4.2 berkeley_db_svc}
+for F in db_*; do
+  Fver=$(echo $F|sed 's/db_/db4.2_/')
+  mv $F $Fver
+  %{?with_default_db:ln -sf $Fver $F}
+done
+cd -
 rm -f examples_c*/tags
 install -d $RPM_BUILD_ROOT%{_examplesdir}/db-%{version}
 cp -rf examples_c/* $RPM_BUILD_ROOT%{_examplesdir}/db-%{version}
@@ -365,7 +422,6 @@ cp -rf examples_cxx/* $RPM_BUILD_ROOT%{_examplesdir}/db-cxx-%{version}
 %if %{with java}
 install -d $RPM_BUILD_ROOT%{_examplesdir}/db-java-%{version}
 cp -rf examples_java/* $RPM_BUILD_ROOT%{_examplesdir}/db-java-%{version}
-mv $RPM_BUILD_ROOT%{_libdir}/db.jar $RPM_BUILD_ROOT%{_javadir}
 %else
 %{__rm} -r $RPM_BUILD_ROOT%{_docdir}/db-%{version}-docs/java
 %endif
@@ -415,9 +471,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_docdir}/db-%{version}-docs/ref
 %{_examplesdir}/db-%{version}
 
+%if %{with static_libs}
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libdb-4.2.a
+%if %{with default_db}
+%{_libdir}/libdb4.a
+%{_libdir}/libdb.a
+%{_libdir}/libndbm.a
+%endif
+%endif
 
 %files cxx
 %defattr(644,root,root,755)
@@ -434,22 +497,31 @@ rm -rf $RPM_BUILD_ROOT
 %{_docdir}/db-%{version}-docs/api_cxx
 %{_examplesdir}/db-cxx-%{version}
 
+%if %{with static_libs}
 %files cxx-static
 %defattr(644,root,root,755)
 %{_libdir}/libdb_cxx-4.2.a
 %if %{with default_db}
 %{_libdir}/libdb_cxx.a
 %endif
+%endif
 
 %if %{with java}
 %files java
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libdb_java-4.2.so
+%{_javadir}/db-4.2.jar
+%if %{with default_db}
 %{_javadir}/db.jar
+%endif
 
 %files java-devel
 %defattr(644,root,root,755)
 %{_libdir}/libdb_java-4.2.la
+%if %{with default_db}
+%attr(755,root,root) %{_libdir}/libdb_java.so
+%{_libdir}/libdb_java.la
+%endif
 %{_docdir}/db-%{version}-docs/java
 %{_examplesdir}/db-java-%{version}
 %endif
@@ -471,16 +543,30 @@ rm -rf $RPM_BUILD_ROOT
 
 %files utils
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/berkeley_db_svc-4.2
+%attr(755,root,root) %{_bindir}/db4.2_archive
+%attr(755,root,root) %{_bindir}/db4.2_checkpoint
+%attr(755,root,root) %{_bindir}/db4.2_deadlock
+%attr(755,root,root) %{_bindir}/db4.2_dump
+#%attr(755,root,root) %{_bindir}/db4.2_dump185
+%attr(755,root,root) %{_bindir}/db4.2_load
+%attr(755,root,root) %{_bindir}/db4.2_printlog
+%attr(755,root,root) %{_bindir}/db4.2_recover
+%attr(755,root,root) %{_bindir}/db4.2_stat
+%attr(755,root,root) %{_bindir}/db4.2_upgrade
+%attr(755,root,root) %{_bindir}/db4.2_verify
+%if %{with default_db}
 %attr(755,root,root) %{_bindir}/berkeley_db_svc
-%attr(755,root,root) %{_bindir}/db*_archive
-%attr(755,root,root) %{_bindir}/db*_checkpoint
-%attr(755,root,root) %{_bindir}/db*_deadlock
-%attr(755,root,root) %{_bindir}/db*_dump
-#%attr(755,root,root) %{_bindir}/db*_dump185
-%attr(755,root,root) %{_bindir}/db*_load
-%attr(755,root,root) %{_bindir}/db*_printlog
-%attr(755,root,root) %{_bindir}/db*_recover
-%attr(755,root,root) %{_bindir}/db*_stat
-%attr(755,root,root) %{_bindir}/db*_upgrade
-%attr(755,root,root) %{_bindir}/db*_verify
+%attr(755,root,root) %{_bindir}/db_archive
+%attr(755,root,root) %{_bindir}/db_checkpoint
+%attr(755,root,root) %{_bindir}/db_deadlock
+%attr(755,root,root) %{_bindir}/db_dump
+#%attr(755,root,root) %{_bindir}/db_dump185
+%attr(755,root,root) %{_bindir}/db_load
+%attr(755,root,root) %{_bindir}/db_printlog
+%attr(755,root,root) %{_bindir}/db_recover
+%attr(755,root,root) %{_bindir}/db_stat
+%attr(755,root,root) %{_bindir}/db_upgrade
+%attr(755,root,root) %{_bindir}/db_verify
+%endif
 %{_docdir}/db-%{version}-docs/utility
